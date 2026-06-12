@@ -14,16 +14,298 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activity_logs: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json | null
+          document_id: string | null
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json | null
+          document_id?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json | null
+          document_id?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_logs_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      documents: {
+        Row: {
+          category_id: string | null
+          confidentiality_level: Database["public"]["Enums"]["confidentiality_level"]
+          created_at: string
+          description: string | null
+          document_date: string | null
+          document_number: string | null
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string | null
+          id: string
+          is_archived: boolean
+          subcity_id: string | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+          uploaded_by: string | null
+          woreda_id: string | null
+        }
+        Insert: {
+          category_id?: string | null
+          confidentiality_level?: Database["public"]["Enums"]["confidentiality_level"]
+          created_at?: string
+          description?: string | null
+          document_date?: string | null
+          document_number?: string | null
+          file_name: string
+          file_path: string
+          file_size?: number
+          file_type?: string | null
+          id?: string
+          is_archived?: boolean
+          subcity_id?: string | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          uploaded_by?: string | null
+          woreda_id?: string | null
+        }
+        Update: {
+          category_id?: string | null
+          confidentiality_level?: Database["public"]["Enums"]["confidentiality_level"]
+          created_at?: string
+          description?: string | null
+          document_date?: string | null
+          document_number?: string | null
+          file_name?: string
+          file_path?: string
+          file_size?: number
+          file_type?: string | null
+          id?: string
+          is_archived?: boolean
+          subcity_id?: string | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          uploaded_by?: string | null
+          woreda_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_subcity_id_fkey"
+            columns: ["subcity_id"]
+            isOneToOne: false
+            referencedRelation: "subcities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_woreda_id_fkey"
+            columns: ["woreda_id"]
+            isOneToOne: false
+            referencedRelation: "woredas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          is_active: boolean
+          phone: string | null
+          subcity_id: string | null
+          updated_at: string
+          woreda_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          is_active?: boolean
+          phone?: string | null
+          subcity_id?: string | null
+          updated_at?: string
+          woreda_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          is_active?: boolean
+          phone?: string | null
+          subcity_id?: string | null
+          updated_at?: string
+          woreda_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_subcity_id_fkey"
+            columns: ["subcity_id"]
+            isOneToOne: false
+            referencedRelation: "subcities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_woreda_id_fkey"
+            columns: ["woreda_id"]
+            isOneToOne: false
+            referencedRelation: "woredas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subcities: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      woredas: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          subcity_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          subcity_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          subcity_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "woredas_subcity_id_fkey"
+            columns: ["subcity_id"]
+            isOneToOne: false
+            referencedRelation: "subcities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_subcity: { Args: { _user_id: string }; Returns: string }
+      get_user_woreda: { Args: { _user_id: string }; Returns: string }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role:
+        | "super_admin"
+        | "city_admin"
+        | "subcity_admin"
+        | "woreda_officer"
+        | "viewer"
+      confidentiality_level:
+        | "Public"
+        | "Internal"
+        | "Restricted"
+        | "Confidential"
+        | "Top Secret"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +432,21 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: [
+        "super_admin",
+        "city_admin",
+        "subcity_admin",
+        "woreda_officer",
+        "viewer",
+      ],
+      confidentiality_level: [
+        "Public",
+        "Internal",
+        "Restricted",
+        "Confidential",
+        "Top Secret",
+      ],
+    },
   },
 } as const
