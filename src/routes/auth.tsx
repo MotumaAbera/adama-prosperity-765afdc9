@@ -59,8 +59,8 @@ function AuthPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-secondary/30 to-accent/30 p-4">
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-6 text-center">
-          <div className="h-14 w-14 rounded-xl bg-primary text-primary-foreground flex items-center justify-center mb-3 shadow-md">
-            <ShieldCheck className="h-7 w-7" />
+          <div className="h-20 w-20 rounded-2xl bg-white border flex items-center justify-center mb-3 shadow-md overflow-hidden">
+            <img src={logoAsset.url} alt="Adama City Prosperity Party logo" className="h-16 w-16 object-contain" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight">Adama City Prosperity Party</h1>
           <p className="text-sm text-muted-foreground">Paartii Badhaadhinaa Magaalaa Adaamaa</p>
