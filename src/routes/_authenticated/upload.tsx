@@ -198,18 +198,20 @@ function UploadPage() {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Subcity</Label>
-              <Select value={form.subcity_id} onValueChange={(v) => setForm({ ...form, subcity_id: v, woreda_id: "" })}>
+              <Label className="flex items-center gap-1">Subcity {lockSubcity && <Lock className="h-3 w-3 text-muted-foreground" />}</Label>
+              <Select value={form.subcity_id} onValueChange={(v) => setForm({ ...form, subcity_id: v, woreda_id: "" })} disabled={lockSubcity}>
                 <SelectTrigger><SelectValue placeholder="Select subcity" /></SelectTrigger>
-                <SelectContent>{subs?.map((s: any) => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}</SelectContent>
+                <SelectContent>{allowedSubs.map((s: any) => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}</SelectContent>
               </Select>
+              {lockSubcity && <p className="text-xs text-muted-foreground">Locked to your assigned subcity.</p>}
             </div>
             <div className="space-y-2">
-              <Label>Woreda</Label>
-              <Select value={form.woreda_id} onValueChange={(v) => setForm({ ...form, woreda_id: v })} disabled={!form.subcity_id}>
-                <SelectTrigger><SelectValue placeholder={form.subcity_id ? "Select woreda" : "Pick subcity first"} /></SelectTrigger>
-                <SelectContent>{wors?.map((w: any) => <SelectItem key={w.id} value={w.id}>{w.name}</SelectItem>)}</SelectContent>
+              <Label className="flex items-center gap-1">Woreda {lockWoreda && <Lock className="h-3 w-3 text-muted-foreground" />}</Label>
+              <Select value={form.woreda_id} onValueChange={(v) => setForm({ ...form, woreda_id: v })} disabled={!form.subcity_id || lockWoreda}>
+                <SelectTrigger><SelectValue placeholder={form.subcity_id ? "Select woreda (optional)" : "Pick subcity first"} /></SelectTrigger>
+                <SelectContent>{allowedWors.map((w: any) => <SelectItem key={w.id} value={w.id}>{w.name}</SelectItem>)}</SelectContent>
               </Select>
+              {lockWoreda && <p className="text-xs text-muted-foreground">Locked to your assigned woreda.</p>}
             </div>
             <div className="space-y-2 md:col-span-2">
               <Label>Tags / Keywords (comma-separated)</Label>
