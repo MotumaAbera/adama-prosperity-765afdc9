@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { db, CONFIDENTIALITY_LEVELS, logActivity } from "@/lib/db";
 import { useAuth } from "@/lib/auth-context";
@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { Upload as UploadIcon, FileUp } from "lucide-react";
+import { Upload as UploadIcon, FileUp, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -23,7 +23,7 @@ const ACCEPT = ".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.zip";
 function slug(s: string) { return s.replace(/[^a-zA-Z0-9_-]+/g, "_").slice(0, 50); }
 
 function UploadPage() {
-  const { user } = useAuth();
+  const { user, profile, primaryRole } = useAuth();
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
@@ -35,12 +35,36 @@ function UploadPage() {
     confidentiality_level: "Internal", tags: "",
   });
 
+  const isWoredaOfficer = primaryRole === "woreda_officer";
+  const isSubcityAdmin = primaryRole === "subcity_admin";
+  const lockSubcity = (isSubcityAdmin || isWoredaOfficer) && !!profile?.subcity_id;
+  const lockWoreda = isWoredaOfficer && !!profile?.woreda_id;
+
+  useEffect(() => {
+    if (!profile) return;
+    setForm((f) => ({
+      ...f,
+      subcity_id: lockSubcity && profile.subcity_id ? profile.subcity_id : f.subcity_id,
+      woreda_id: lockWoreda && profile.woreda_id ? profile.woreda_id : f.woreda_id,
+    }));
+  }, [profile, lockSubcity, lockWoreda]);
+
   const { data: cats } = useQuery({ queryKey: ["cats"], queryFn: async () => (await db.from("categories").select("id,name").order("name")).data ?? [] });
   const { data: subs } = useQuery({ queryKey: ["subs"], queryFn: async () => (await db.from("subcities").select("id,name").order("name")).data ?? [] });
   const { data: wors } = useQuery({
     queryKey: ["wors", form.subcity_id], enabled: !!form.subcity_id,
     queryFn: async () => (await db.from("woredas").select("id,name").eq("subcity_id", form.subcity_id).order("name")).data ?? [],
   });
+
+  const allowedSubs = useMemo(() => {
+    if (lockSubcity && profile?.subcity_id) return (subs ?? []).filter((s: any) => s.id === profile.subcity_id);
+    return subs ?? [];
+  }, [subs, lockSubcity, profile?.subcity_id]);
+
+  const allowedWors = useMemo(() => {
+    if (lockWoreda && profile?.woreda_id) return (wors ?? []).filter((w: any) => w.id === profile.woreda_id);
+    return wors ?? [];
+  }, [wors, lockWoreda, profile?.woreda_id]);
 
   const onDrop = (e: React.DragEvent) => {
     e.preventDefault();
