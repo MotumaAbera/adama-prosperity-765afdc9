@@ -5,8 +5,9 @@ import {
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard, Upload, FileText, Search, Tag, Building2, MapPin, Users,
-  ClipboardList, LogOut, ShieldCheck,
+  ClipboardList, LogOut,
 } from "lucide-react";
+import logoAsset from "@/assets/logo.png.asset.json";
 import { useAuth } from "@/lib/auth-context";
 import { isAdminRole, ROLE_LABELS } from "@/lib/db";
 import { Button } from "@/components/ui/button";
