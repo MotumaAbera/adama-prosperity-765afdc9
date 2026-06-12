@@ -5,8 +5,9 @@ import {
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard, Upload, FileText, Search, Tag, Building2, MapPin, Users,
-  ClipboardList, LogOut, ShieldCheck,
+  ClipboardList, LogOut,
 } from "lucide-react";
+import logoAsset from "@/assets/logo.png.asset.json";
 import { useAuth } from "@/lib/auth-context";
 import { isAdminRole, ROLE_LABELS } from "@/lib/db";
 import { Button } from "@/components/ui/button";
@@ -43,8 +44,8 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border">
         <div className="flex items-center gap-2 px-2 py-3">
-          <div className="h-9 w-9 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shrink-0">
-            <ShieldCheck className="h-5 w-5" />
+          <div className="h-9 w-9 rounded-lg bg-white border flex items-center justify-center shrink-0 overflow-hidden">
+            <img src={logoAsset.url} alt="Adama DMS logo" className="h-8 w-8 object-contain" />
           </div>
           {!collapsed && (
             <div className="min-w-0">
