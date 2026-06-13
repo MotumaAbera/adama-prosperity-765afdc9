@@ -146,8 +146,11 @@ function UploadPage() {
     <div className="max-w-4xl space-y-6">
       <div>
         <h1 className="text-2xl font-bold">Upload Document</h1>
-        <p className="text-sm text-muted-foreground">Add new documents to the repository</p>
+        <p className="text-sm text-muted-foreground">
+          Uploading as <span className="font-medium text-foreground">{levelLabel}</span> level — visibility is determined by your role.
+        </p>
       </div>
+
 
       <form onSubmit={submit} className="space-y-4">
         <Card>
