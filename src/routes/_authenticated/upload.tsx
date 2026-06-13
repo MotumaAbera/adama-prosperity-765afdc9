@@ -102,8 +102,10 @@ function UploadPage() {
       const cat = cats?.find((c: any) => c.id === form.category_id);
 
       for (const file of files) {
-        const folder = `${slug(sub?.name || "_")}/${slug(wor?.name || "_")}/${slug(cat?.name || "_")}`;
+        const levelFolder = isCityLevel ? "city" : isSubcityAdmin ? "subcity" : "woreda";
+        const folder = `${levelFolder}/${slug(sub?.name || "_")}/${slug(wor?.name || "_")}/${slug(cat?.name || "_")}`;
         const path = `${folder}/${Date.now()}_${slug(file.name)}`;
+
 
         const { error: upErr } = await supabase.storage.from("documents").upload(path, file, {
           contentType: file.type, upsert: false,
