@@ -80,12 +80,20 @@ function UploadPage() {
     if (!user) return;
     if (files.length === 0) return toast.error("Please choose at least one file");
     if (!form.title || !form.category_id) return toast.error("Title and category are required");
-    if (isWoredaOfficer && (form.subcity_id !== profile?.subcity_id || form.woreda_id !== profile?.woreda_id)) {
-      return toast.error("Woreda officers can only upload to their assigned woreda");
+    if (isCityLevel) {
+      // City-level uploads: ignore any subcity/woreda
+      form.subcity_id = "";
+      form.woreda_id = "";
+    } else if (isWoredaOfficer) {
+      if (form.subcity_id !== profile?.subcity_id || form.woreda_id !== profile?.woreda_id) {
+        return toast.error("Woreda officers can only upload to their assigned woreda");
+      }
+    } else if (isSubcityAdmin) {
+      if (form.subcity_id !== profile?.subcity_id) {
+        return toast.error("Subcity admins can only upload within their subcity");
+      }
     }
-    if (isSubcityAdmin && form.subcity_id !== profile?.subcity_id) {
-      return toast.error("Subcity admins can only upload within their subcity");
-    }
+
 
     setBusy(true);
     try {
