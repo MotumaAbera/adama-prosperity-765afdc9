@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import logoAsset from "@/assets/logo.png.asset.json";
 
@@ -18,10 +17,8 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const { session, loading } = useAuth();
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
   const [busy, setBusy] = useState(false);
 
   if (loading) return <div className="flex min-h-screen items-center justify-center">Loading…</div>;
@@ -31,23 +28,10 @@ function AuthPage() {
     e.preventDefault();
     setBusy(true);
     try {
-      if (mode === "signin") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast.success("Welcome back");
-        navigate({ to: "/dashboard" });
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email, password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/`,
-            data: { full_name: fullName },
-          },
-        });
-        if (error) throw error;
-        toast.success("Account created. You can sign in now.");
-        setMode("signin");
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      toast.success("Welcome back");
+      navigate({ to: "/dashboard" });
     } catch (err: any) {
       toast.error(err.message ?? "Authentication failed");
     } finally {
@@ -72,34 +56,19 @@ function AuthPage() {
             <CardDescription>Access the secure document repository</CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs value={mode} onValueChange={(v) => setMode(v as any)}>
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="signin">Sign In</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
-              </TabsList>
-              <form onSubmit={onSubmit} className="space-y-4 mt-4">
-                <TabsContent value="signup" className="space-y-2 mt-0">
-                  <Label htmlFor="fullname">Full Name</Label>
-                  <Input id="fullname" required={mode === "signup"} value={fullName} onChange={(e) => setFullName(e.target.value)} />
-                </TabsContent>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <Input id="password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <Button type="submit" className="w-full" disabled={busy}>
-                  {busy ? "Please wait…" : mode === "signin" ? "Sign In" : "Create Account"}
-                </Button>
-                {mode === "signup" && (
-                  <p className="text-xs text-muted-foreground text-center">
-                    The first account created becomes the Super Admin.
-                  </p>
-                )}
-              </form>
-            </Tabs>
+            <form onSubmit={onSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input id="password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
+              </div>
+              <Button type="submit" className="w-full" disabled={busy}>
+                {busy ? "Please wait…" : "Sign In"}
+              </Button>
+            </form>
           </CardContent>
         </Card>
       </div>
