@@ -85,11 +85,17 @@ function UploadPage() {
       form.subcity_id = "";
       form.woreda_id = "";
     } else if (isWoredaOfficer) {
-      if (form.subcity_id !== profile?.subcity_id || form.woreda_id !== profile?.woreda_id) {
+      if (!profile?.subcity_id || !profile?.woreda_id) {
+        return toast.error("Your account has no assigned subcity/woreda. Ask an admin to assign one in User Management.");
+      }
+      if (form.subcity_id !== profile.subcity_id || form.woreda_id !== profile.woreda_id) {
         return toast.error("Woreda officers can only upload to their assigned woreda");
       }
     } else if (isSubcityAdmin) {
-      if (form.subcity_id !== profile?.subcity_id) {
+      if (!profile?.subcity_id) {
+        return toast.error("Your account has no assigned subcity. Ask an admin to assign one in User Management.");
+      }
+      if (form.subcity_id !== profile.subcity_id) {
         return toast.error("Subcity admins can only upload within their subcity");
       }
     }
@@ -142,6 +148,10 @@ function UploadPage() {
     }
   };
 
+  const missingAssignment =
+    (isSubcityAdmin && !profile?.subcity_id) ||
+    (isWoredaOfficer && (!profile?.subcity_id || !profile?.woreda_id));
+
   return (
     <div className="max-w-4xl space-y-6">
       <div>
@@ -150,6 +160,17 @@ function UploadPage() {
           Uploading as <span className="font-medium text-foreground">{levelLabel}</span> level — visibility is determined by your role.
         </p>
       </div>
+
+      {missingAssignment && (
+        <div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900 flex gap-3">
+          <Lock className="h-5 w-5 shrink-0 mt-0.5" />
+          <div>
+            <div className="font-semibold">Account not fully configured</div>
+            <p>Your account is missing a {isWoredaOfficer ? "subcity/woreda" : "subcity"} assignment. Ask a city administrator to assign one in <span className="font-medium">User Management</span> before uploading.</p>
+          </div>
+        </div>
+      )}
+
 
 
       <form onSubmit={submit} className="space-y-4">
