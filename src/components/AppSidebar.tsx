@@ -4,7 +4,7 @@ import {
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter, useSidebar,
 } from "@/components/ui/sidebar";
 import {
-  LayoutDashboard, Upload, FileText, Search, Tag, Building2, MapPin, Users,
+  LayoutDashboard, Upload, FileText, Tag, Building2, MapPin, Users,
   ClipboardList, LogOut, ChevronRight,
 } from "lucide-react";
 import logoAsset from "@/assets/logo.png.asset.json";
@@ -29,7 +29,7 @@ const adminItems = [
 ];
 
 export function AppSidebar() {
-  const { state } = useSidebar();
+  const { state, isMobile, setOpenMobile } = useSidebar();
   const collapsed = state === "collapsed";
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { profile, primaryRole, signOut } = useAuth();
@@ -37,6 +37,7 @@ export function AppSidebar() {
   const isAdmin = isAdminRole(primaryRole);
 
   const handleSignOut = async () => {
+    if (isMobile) setOpenMobile(false);
     await signOut();
     navigate({ to: "/auth", replace: true });
   };
@@ -59,7 +60,7 @@ export function AppSidebar() {
             "data-[active=true]:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.35)]",
           )}
         >
-          <Link to={item.url}>
+          <Link to={item.url} onClick={() => { if (isMobile) setOpenMobile(false); }}>
             <span
               className={cn(
                 "flex h-7 w-7 items-center justify-center rounded-lg transition-all shrink-0",

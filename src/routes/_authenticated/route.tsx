@@ -1,12 +1,30 @@
 import { createFileRoute, Outlet, Navigate } from "@tanstack/react-router";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useAuth } from "@/lib/auth-context";
+import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
   component: AuthenticatedLayout,
 });
+
+function HamburgerTrigger({ className }: { className?: string }) {
+  const { toggleSidebar } = useSidebar();
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      className={cn("h-7 w-7", className)}
+      onClick={toggleSidebar}
+    >
+      <Menu className="h-5 w-5" />
+      <span className="sr-only">Toggle Sidebar</span>
+    </Button>
+  );
+}
 
 function AuthenticatedLayout() {
   const { session, loading } = useAuth();
@@ -20,7 +38,7 @@ function AuthenticatedLayout() {
         <div className="flex-1 flex flex-col min-w-0">
           <div className="h-1 bg-[#3e7edd] shrink-0" />
           <header className="h-14 flex items-center gap-2 border-b bg-card px-4 sticky top-0 z-10">
-            <SidebarTrigger />
+            <HamburgerTrigger />
             <div className="flex-1" />
             <div className="text-xs text-muted-foreground hidden md:block">
               Adama City Prosperity Party · Document Management System
