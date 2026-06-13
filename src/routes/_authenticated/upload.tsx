@@ -85,11 +85,17 @@ function UploadPage() {
       form.subcity_id = "";
       form.woreda_id = "";
     } else if (isWoredaOfficer) {
-      if (form.subcity_id !== profile?.subcity_id || form.woreda_id !== profile?.woreda_id) {
+      if (!profile?.subcity_id || !profile?.woreda_id) {
+        return toast.error("Your account has no assigned subcity/woreda. Ask an admin to assign one in User Management.");
+      }
+      if (form.subcity_id !== profile.subcity_id || form.woreda_id !== profile.woreda_id) {
         return toast.error("Woreda officers can only upload to their assigned woreda");
       }
     } else if (isSubcityAdmin) {
-      if (form.subcity_id !== profile?.subcity_id) {
+      if (!profile?.subcity_id) {
+        return toast.error("Your account has no assigned subcity. Ask an admin to assign one in User Management.");
+      }
+      if (form.subcity_id !== profile.subcity_id) {
         return toast.error("Subcity admins can only upload within their subcity");
       }
     }
