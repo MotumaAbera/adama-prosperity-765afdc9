@@ -59,7 +59,7 @@ export function AppSidebar() {
             "data-[active=true]:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.35)]",
           )}
         >
-          <Link to={item.url}>
+          <Link to={item.url} onClick={() => { if (isMobile) setOpenMobile(false); }}>
             <span
               className={cn(
                 "flex h-7 w-7 items-center justify-center rounded-lg transition-all shrink-0",
