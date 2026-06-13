@@ -4,7 +4,7 @@ import {
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter, useSidebar,
 } from "@/components/ui/sidebar";
 import {
-  LayoutDashboard, Upload, FileText, Search, Tag, Building2, MapPin, Users,
+  LayoutDashboard, Upload, FileText, Tag, Building2, MapPin, Users,
   ClipboardList, LogOut, ChevronRight,
 } from "lucide-react";
 import logoAsset from "@/assets/logo.png.asset.json";
