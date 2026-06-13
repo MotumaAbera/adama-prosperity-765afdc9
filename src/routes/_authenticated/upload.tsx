@@ -37,17 +37,21 @@ function UploadPage() {
 
   const isWoredaOfficer = primaryRole === "woreda_officer";
   const isSubcityAdmin = primaryRole === "subcity_admin";
+  const isCityLevel = primaryRole === "super_admin" || primaryRole === "city_admin";
   const lockSubcity = (isSubcityAdmin || isWoredaOfficer) && !!profile?.subcity_id;
   const lockWoreda = isWoredaOfficer && !!profile?.woreda_id;
+
+  const levelLabel = isCityLevel ? "City" : isSubcityAdmin ? "Subcity" : isWoredaOfficer ? "Woreda" : "—";
 
   useEffect(() => {
     if (!profile) return;
     setForm((f) => ({
       ...f,
-      subcity_id: lockSubcity && profile.subcity_id ? profile.subcity_id : f.subcity_id,
-      woreda_id: lockWoreda && profile.woreda_id ? profile.woreda_id : f.woreda_id,
+      subcity_id: isCityLevel ? "" : (lockSubcity && profile.subcity_id ? profile.subcity_id : f.subcity_id),
+      woreda_id: isCityLevel ? "" : (lockWoreda && profile.woreda_id ? profile.woreda_id : f.woreda_id),
     }));
-  }, [profile, lockSubcity, lockWoreda]);
+  }, [profile, lockSubcity, lockWoreda, isCityLevel]);
+
 
   const { data: cats } = useQuery({ queryKey: ["cats"], queryFn: async () => (await db.from("categories").select("id,name").order("name")).data ?? [] });
   const { data: subs } = useQuery({ queryKey: ["subs"], queryFn: async () => (await db.from("subcities").select("id,name").order("name")).data ?? [] });
