@@ -71,7 +71,7 @@ export function AppSidebar() {
   return (
     <Sidebar
       collapsible="icon"
-      className="border-r border-sidebar-border [&>[data-sidebar=sidebar]]:bg-[image:var(--gradient-sidebar)]"
+      className="border-r border-sidebar-border [&>[data-sidebar=sidebar]]:bg-[#3e7edd]"
     >
       <SidebarHeader className="border-b border-white/10">
         <div className="flex items-center gap-3 px-2 py-3">
