@@ -11,12 +11,13 @@ import logoAsset from "@/assets/logo.png.asset.json";
 import { useAuth } from "@/lib/auth-context";
 import { isAdminRole, ROLE_LABELS } from "@/lib/db";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const navItems = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard, roles: "all" },
-  { title: "Upload Document", url: "/upload", icon: Upload, roles: "all" },
-  { title: "Documents", url: "/documents", icon: FileText, roles: "all" },
-  { title: "Advanced Search", url: "/documents", icon: Search, roles: "all", hash: "search" },
+  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+  { title: "Upload Document", url: "/upload", icon: Upload },
+  { title: "Documents", url: "/documents", icon: FileText },
+  { title: "Advanced Search", url: "/documents", icon: Search },
 ];
 
 const adminItems = [
@@ -40,68 +41,101 @@ export function AppSidebar() {
     navigate({ to: "/auth", replace: true });
   };
 
+  const initials = (profile?.full_name || profile?.email || "?")
+    .split(" ").map((s) => s[0]).slice(0, 2).join("").toUpperCase();
+
+  const renderItem = (item: { title: string; url: string; icon: any }) => {
+    const active = pathname === item.url;
+    return (
+      <SidebarMenuItem key={item.title + item.url}>
+        <SidebarMenuButton
+          asChild
+          isActive={active}
+          tooltip={collapsed ? item.title : undefined}
+          className={cn(
+            "group/item relative h-10 rounded-lg text-sidebar-foreground/80 transition-all",
+            "hover:bg-white/5 hover:text-sidebar-foreground",
+            "data-[active=true]:bg-white/10 data-[active=true]:text-sidebar-foreground data-[active=true]:font-medium",
+            "data-[active=true]:shadow-[inset_3px_0_0_var(--brand)]",
+          )}
+        >
+          <Link to={item.url}>
+            <item.icon className={cn("h-4 w-4 shrink-0 transition-colors", active ? "text-brand" : "text-sidebar-foreground/60 group-hover/item:text-sidebar-foreground")} />
+            <span className="text-sm">{item.title}</span>
+          </Link>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    );
+  };
+
   return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-sidebar-border">
-        <div className="flex items-center gap-2 px-2 py-3">
-          <div className="h-9 w-9 rounded-lg bg-white border flex items-center justify-center shrink-0 overflow-hidden">
-            <img src={logoAsset.url} alt="Adama DMS logo" className="h-8 w-8 object-contain" />
+    <Sidebar
+      collapsible="icon"
+      className="border-r border-sidebar-border [&>[data-sidebar=sidebar]]:bg-[image:var(--gradient-sidebar)]"
+    >
+      <SidebarHeader className="border-b border-white/10">
+        <div className="flex items-center gap-3 px-2 py-3">
+          <div className="h-10 w-10 rounded-xl bg-white shadow-[var(--shadow-brand)] flex items-center justify-center shrink-0 overflow-hidden ring-1 ring-white/30">
+            <img src={logoAsset.url} alt="Adama DMS logo" className="h-9 w-9 object-contain" />
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <div className="text-sm font-semibold truncate">Adama DMS</div>
-              <div className="text-[10px] text-muted-foreground truncate">Prosperity Party</div>
+              <div className="text-sm font-semibold text-sidebar-foreground truncate">Adama DMS</div>
+              <div className="text-[10px] text-sidebar-foreground/60 truncate uppercase tracking-wider">Prosperity Party</div>
             </div>
           )}
         </div>
       </SidebarHeader>
-      <SidebarContent>
+
+      <SidebarContent className="px-2 py-3">
         <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          {!collapsed && (
+            <SidebarGroupLabel className="text-[10px] font-semibold uppercase tracking-[0.12em] text-sidebar-foreground/50">
+              Workspace
+            </SidebarGroupLabel>
+          )}
           <SidebarGroupContent>
-            <SidebarMenu>
-              {navItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <Link to={item.url}>
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+            <SidebarMenu className="gap-1">{navItems.map(renderItem)}</SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
         {isAdmin && (
-          <SidebarGroup>
-            <SidebarGroupLabel>Administration</SidebarGroupLabel>
+          <SidebarGroup className="mt-2">
+            {!collapsed && (
+              <SidebarGroupLabel className="text-[10px] font-semibold uppercase tracking-[0.12em] text-sidebar-foreground/50">
+                Administration
+              </SidebarGroupLabel>
+            )}
             <SidebarGroupContent>
-              <SidebarMenu>
-                {adminItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={pathname === item.url}>
-                      <Link to={item.url}>
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
+              <SidebarMenu className="gap-1">{adminItems.map(renderItem)}</SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         )}
       </SidebarContent>
-      <SidebarFooter className="border-t border-sidebar-border">
-        {!collapsed && profile && (
-          <div className="px-2 py-2">
-            <div className="text-xs font-medium truncate">{profile.full_name || profile.email}</div>
-            <div className="text-[10px] text-muted-foreground">{primaryRole ? ROLE_LABELS[primaryRole] : "No role"}</div>
+
+      <SidebarFooter className="border-t border-white/10 p-2">
+        {profile && (
+          <div className={cn(
+            "flex items-center gap-3 rounded-lg p-2",
+            !collapsed && "bg-white/5",
+          )}>
+            <div className="h-9 w-9 rounded-full bg-[image:var(--gradient-brand)] flex items-center justify-center text-white text-xs font-semibold shrink-0 shadow-[var(--shadow-brand)]">
+              {initials}
+            </div>
+            {!collapsed && (
+              <div className="min-w-0 flex-1">
+                <div className="text-xs font-medium text-sidebar-foreground truncate">{profile.full_name || profile.email}</div>
+                <div className="text-[10px] text-sidebar-foreground/60 truncate">{primaryRole ? ROLE_LABELS[primaryRole] : "No role"}</div>
+              </div>
+            )}
           </div>
         )}
-        <Button variant="ghost" size="sm" className="justify-start gap-2" onClick={handleSignOut}>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="justify-start gap-2 mt-1 text-sidebar-foreground/80 hover:bg-white/10 hover:text-sidebar-foreground"
+          onClick={handleSignOut}
+        >
           <LogOut className="h-4 w-4" />
           {!collapsed && <span>Sign out</span>}
         </Button>
