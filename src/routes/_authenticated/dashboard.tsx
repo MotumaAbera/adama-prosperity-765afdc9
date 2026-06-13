@@ -123,66 +123,88 @@ function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Welcome, {profile?.full_name || profile?.email}</h1>
-        <p className="text-sm text-muted-foreground">
-          {primaryRole ? ROLE_LABELS[primaryRole] : "No role"} · Adama City Prosperity Party · Document Management
-        </p>
+      <div className="relative overflow-hidden rounded-2xl bg-[image:var(--gradient-brand)] text-white p-6 shadow-[var(--shadow-brand)]">
+        <div className="absolute -top-16 -right-16 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
+        <div className="absolute -bottom-20 -left-10 h-40 w-40 rounded-full bg-white/5 blur-3xl" />
+        <div className="relative">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+            {primaryRole ? ROLE_LABELS[primaryRole] : "No role"} · Adama City
+          </div>
+          <h1 className="text-2xl md:text-3xl font-bold mt-1">
+            Welcome back, {profile?.full_name?.split(" ")[0] || profile?.email?.split("@")[0]}
+          </h1>
+          <p className="text-sm text-white/80 mt-1">
+            Prosperity Party · Document Management System
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-        <StatCard icon={FileText} label="Total Documents" value={stats?.documents} />
-        <StatCard icon={Users} label="Total Users" value={stats?.users} />
-        <StatCard icon={Building2} label="Subcities" value={stats?.subcities} />
-        <StatCard icon={MapPin} label="Woredas" value={stats?.woredas} />
-        <StatCard icon={Tag} label="Categories" value={stats?.categories} />
-        <StatCard icon={Download} label="Downloads" value={stats?.downloads} />
-        <StatCard icon={Upload} label="Uploaded Today" value={stats?.todayUploads} />
+        <StatCard icon={FileText} label="Total Documents" value={stats?.documents} accentIndex={0} />
+        <StatCard icon={Users} label="Total Users" value={stats?.users} accentIndex={1} />
+        <StatCard icon={Building2} label="Subcities" value={stats?.subcities} accentIndex={2} />
+        <StatCard icon={MapPin} label="Woredas" value={stats?.woredas} accentIndex={3} />
+        <StatCard icon={Tag} label="Categories" value={stats?.categories} accentIndex={4} />
+        <StatCard icon={Download} label="Downloads" value={stats?.downloads} accentIndex={5} />
+        <StatCard icon={Upload} label="Uploaded Today" value={stats?.todayUploads} accentIndex={6} />
       </div>
 
       <div className="grid lg:grid-cols-2 gap-4">
-        <Card>
-          <CardHeader><CardTitle>Documents by Subcity</CardTitle></CardHeader>
+        <Card className="border-border/60">
+          <CardHeader><CardTitle className="text-base">Documents by Subcity</CardTitle></CardHeader>
           <CardContent className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={charts?.bySubcity ?? []}>
-                <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                <XAxis dataKey="name" fontSize={11} />
-                <YAxis fontSize={11} allowDecimals={false} />
-                <Tooltip />
-                <Bar dataKey="count" fill="oklch(0.55 0.16 150)" radius={[4, 4, 0, 0]} />
+                <defs>
+                  <linearGradient id="barBrand" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={BRAND} stopOpacity={1} />
+                    <stop offset="100%" stopColor={BRAND} stopOpacity={0.55} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" opacity={0.25} />
+                <XAxis dataKey="name" fontSize={11} stroke="currentColor" opacity={0.6} />
+                <YAxis fontSize={11} allowDecimals={false} stroke="currentColor" opacity={0.6} />
+                <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid var(--border)", background: "var(--card)" }} />
+                <Bar dataKey="count" fill="url(#barBrand)" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader><CardTitle>Monthly Upload Trend</CardTitle></CardHeader>
+        <Card className="border-border/60">
+          <CardHeader><CardTitle className="text-base">Monthly Upload Trend</CardTitle></CardHeader>
           <CardContent className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={charts?.trend ?? []}>
-                <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                <XAxis dataKey="month" fontSize={11} />
-                <YAxis fontSize={11} allowDecimals={false} />
-                <Tooltip />
-                <Line type="monotone" dataKey="count" stroke="oklch(0.55 0.16 150)" strokeWidth={2} dot={{ r: 4 }} />
+                <defs>
+                  <linearGradient id="lineBrandFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={BRAND} stopOpacity={0.3} />
+                    <stop offset="100%" stopColor={BRAND} stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" opacity={0.25} />
+                <XAxis dataKey="month" fontSize={11} stroke="currentColor" opacity={0.6} />
+                <YAxis fontSize={11} allowDecimals={false} stroke="currentColor" opacity={0.6} />
+                <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid var(--border)", background: "var(--card)" }} />
+                <Line type="monotone" dataKey="count" stroke={BRAND} strokeWidth={2.5} dot={{ r: 4, fill: BRAND }} activeDot={{ r: 6 }} />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
-        <Card className="lg:col-span-2">
-          <CardHeader><CardTitle>Documents by Category</CardTitle></CardHeader>
+        <Card className="lg:col-span-2 border-border/60">
+          <CardHeader><CardTitle className="text-base">Documents by Category</CardTitle></CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={charts?.byCategory ?? []} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                <XAxis type="number" fontSize={11} allowDecimals={false} />
-                <YAxis type="category" dataKey="name" fontSize={10} width={170} />
-                <Tooltip />
-                <Bar dataKey="count" fill="oklch(0.6 0.12 180)" radius={[0, 4, 4, 0]} />
+                <CartesianGrid strokeDasharray="3 3" opacity={0.25} />
+                <XAxis type="number" fontSize={11} allowDecimals={false} stroke="currentColor" opacity={0.6} />
+                <YAxis type="category" dataKey="name" fontSize={10} width={170} stroke="currentColor" opacity={0.7} />
+                <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid var(--border)", background: "var(--card)" }} />
+                <Bar dataKey="count" fill={BRAND} radius={[0, 6, 6, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
+
       </div>
 
       <div className="grid lg:grid-cols-2 gap-4">
