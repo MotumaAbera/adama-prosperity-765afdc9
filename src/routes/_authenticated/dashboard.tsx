@@ -123,20 +123,16 @@ function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="relative overflow-hidden rounded-2xl bg-[image:var(--gradient-brand)] text-white p-6 shadow-[var(--shadow-brand)]">
-        <div className="absolute -top-16 -right-16 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
-        <div className="absolute -bottom-20 -left-10 h-40 w-40 rounded-full bg-white/5 blur-3xl" />
-        <div className="relative">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
-            {primaryRole ? ROLE_LABELS[primaryRole] : "No role"} · Adama City
-          </div>
-          <h1 className="text-2xl md:text-3xl font-bold mt-1">
-            Welcome back, {profile?.full_name?.split(" ")[0] || profile?.email?.split("@")[0]}
-          </h1>
-          <p className="text-sm text-white/80 mt-1">
-            Prosperity Party · Document Management System
-          </p>
+      <div className="rounded-2xl p-6">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3e7edd]">
+          {primaryRole ? ROLE_LABELS[primaryRole] : "No role"} · Adama City
         </div>
+        <h1 className="text-2xl md:text-3xl font-bold mt-1 text-foreground">
+          Welcome back, {profile?.full_name?.split(" ")[0] || profile?.email?.split("@")[0]}
+        </h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Prosperity Party · Document Management System
+        </p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
