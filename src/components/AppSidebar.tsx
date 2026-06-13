@@ -37,6 +37,7 @@ export function AppSidebar() {
   const isAdmin = isAdminRole(primaryRole);
 
   const handleSignOut = async () => {
+    if (isMobile) setOpenMobile(false);
     await signOut();
     navigate({ to: "/auth", replace: true });
   };
