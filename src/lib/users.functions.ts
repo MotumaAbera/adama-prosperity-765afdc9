@@ -6,7 +6,6 @@ export const createUser = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: {
     email: string;
-    password: string;
     full_name: string;
     role: AppRole;
     subcity_id?: string | null;
@@ -20,23 +19,23 @@ export const createUser = createServerFn({ method: "POST" })
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    const { data: userData, error: createError } = await supabaseAdmin.auth.admin.createUser({
-      email: data.email,
-      password: data.password,
-      email_confirm: false,
-      user_metadata: { full_name: data.full_name },
-    });
-    if (createError) throw createError;
-    if (!userData.user) throw new Error("User creation failed");
+    // Invite the user by email — Supabase sends an invitation email with a link
+    // the user clicks to set their password and confirm their account.
+    const redirectTo = process.env.SITE_URL
+      ? `${process.env.SITE_URL}/auth`
+      : undefined;
 
-    const newUserId = userData.user.id;
+    const { data: invited, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(
+      data.email,
+      {
+        data: { full_name: data.full_name },
+        redirectTo,
+      },
+    );
+    if (inviteError) throw inviteError;
+    if (!invited.user) throw new Error("Invitation failed");
 
-    // Send confirmation email so the user must verify before signing in
-    await supabaseAdmin.auth.admin.generateLink({
-      type: "signup",
-      email: data.email,
-      password: data.password,
-    });
+    const newUserId = invited.user.id;
 
     await supabaseAdmin.from("user_roles").delete().eq("user_id", newUserId);
     const { error: roleError } = await supabaseAdmin.from("user_roles").insert({
