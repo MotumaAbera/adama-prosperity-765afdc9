@@ -35,6 +35,7 @@ function UsersPage() {
 
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [role, setRole] = useState<AppRole>("viewer");
   const [subcityId, setSubcityId] = useState("");
