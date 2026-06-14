@@ -24,7 +24,7 @@ export default defineConfig({
           description:
             "Secure enterprise document management for Adama City Prosperity Party.",
           theme_color: "#3e7edd",
-          background_color: "#ffffff",
+          background_color: "#3e7edd",
           display: "standalone",
           start_url: "/",
           scope: "/",
