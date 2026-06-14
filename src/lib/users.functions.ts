@@ -20,10 +20,9 @@ export const createUser = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     // Invite the user by email — Supabase sends an invitation email with a link
-    // the user clicks to set their password and confirm their account.
-    const redirectTo = process.env.SITE_URL
-      ? `${process.env.SITE_URL}/auth`
-      : undefined;
+    // that lands on /set-password where they choose their own password.
+    const siteUrl = process.env.SITE_URL || process.env.VITE_PUBLIC_SITE_URL;
+    const redirectTo = siteUrl ? `${siteUrl}/set-password` : undefined;
 
     const { data: invited, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(
       data.email,
