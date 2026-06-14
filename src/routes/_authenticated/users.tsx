@@ -104,6 +104,7 @@ function UsersPage() {
           role,
           subcity_id: subcityId || null,
           woreda_id: woredaId || null,
+          origin: typeof window !== "undefined" ? window.location.origin : undefined,
         },
       });
       toast.success("Invitation sent. The user will receive an email with a link to set their password.");
