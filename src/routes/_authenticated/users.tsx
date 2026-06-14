@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { db, ROLE_LABELS, type AppRole } from "@/lib/db";
-import { createUser } from "@/lib/users.functions";
+import { createUser, deleteUser } from "@/lib/users.functions";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/users")({
   ssr: false,
@@ -32,6 +33,7 @@ const ROLES: AppRole[] = ["super_admin", "city_admin", "subcity_admin", "woreda_
 function UsersPage() {
   const qc = useQueryClient();
   const addUser = useServerFn(createUser);
+  const removeUser = useServerFn(deleteUser);
 
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -41,6 +43,8 @@ function UsersPage() {
   const [subcityId, setSubcityId] = useState("");
   const [woredaId, setWoredaId] = useState("");
   const [busy, setBusy] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<any>(null);
 
   const { data: users, isLoading } = useQuery({
     queryKey: ["users-admin"],
@@ -92,6 +96,23 @@ function UsersPage() {
     const { error } = await db.from("profiles").update({ is_active }).eq("id", userId);
     if (error) return toast.error(error.message);
     qc.invalidateQueries({ queryKey: ["users-admin"] });
+  };
+
+  const onConfirmDelete = async () => {
+    if (!deleteTarget) return;
+    setBusy(true);
+    try {
+      await removeUser({ data: { userId: deleteTarget.id } });
+      toast.success("User deleted");
+      qc.invalidateQueries({ queryKey: ["users-admin"] });
+      qc.invalidateQueries({ queryKey: ["dashboard-stats"] });
+    } catch (err: any) {
+      toast.error(err.message ?? "Failed to delete user");
+    } finally {
+      setBusy(false);
+      setDeleteOpen(false);
+      setDeleteTarget(null);
+    }
   };
 
   const onAddUser = async (e: React.FormEvent) => {
@@ -193,10 +214,11 @@ function UsersPage() {
                 <TableHead>Role</TableHead>
                 <TableHead>Subcity</TableHead>
                 <TableHead>Active</TableHead>
+                <TableHead className="w-10"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {isLoading && <TableRow><TableCell colSpan={4} className="text-center py-6 text-muted-foreground">Loading…</TableCell></TableRow>}
+              {isLoading && <TableRow><TableCell colSpan={5} className="text-center py-6 text-muted-foreground">Loading…</TableCell></TableRow>}
               {users?.map((u: any) => (
                 <TableRow key={u.id}>
                   <TableCell>
@@ -217,12 +239,37 @@ function UsersPage() {
                     </Select>
                   </TableCell>
                   <TableCell><Switch checked={u.is_active} onCheckedChange={(v) => toggleActive(u.id, v)} /></TableCell>
+                  <TableCell>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-destructive hover:text-destructive"
+                      onClick={() => { setDeleteTarget(u); setDeleteOpen(true); }}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
+
+      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Delete User</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete <strong>{deleteTarget?.full_name || deleteTarget?.email}</strong>? This cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setDeleteOpen(false)} disabled={busy}>Cancel</Button>
+            <Button type="button" variant="destructive" onClick={onConfirmDelete} disabled={busy}>{busy ? "Deleting…" : "Delete"}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
