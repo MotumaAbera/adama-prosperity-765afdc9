@@ -31,6 +31,13 @@ export const createUser = createServerFn({ method: "POST" })
 
     const newUserId = userData.user.id;
 
+    // Send confirmation email so the user must verify before signing in
+    await supabaseAdmin.auth.admin.generateLink({
+      type: "signup",
+      email: data.email,
+      password: data.password,
+    });
+
     await supabaseAdmin.from("user_roles").delete().eq("user_id", newUserId);
     const { error: roleError } = await supabaseAdmin.from("user_roles").insert({
       user_id: newUserId,
