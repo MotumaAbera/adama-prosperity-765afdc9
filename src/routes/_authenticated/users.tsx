@@ -136,7 +136,7 @@ function UsersPage() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Add User</DialogTitle>
-            <DialogDescription>Create a new user account. They will receive a confirmation email and must verify before signing in.</DialogDescription>
+            <DialogDescription>Invite a new user by email. They will receive a link to set their password and confirm their account.</DialogDescription>
           </DialogHeader>
           <form onSubmit={onAddUser} className="space-y-4">
             <div className="space-y-2">
@@ -146,10 +146,6 @@ function UsersPage() {
             <div className="space-y-2">
               <Label htmlFor="add-email">Email</Label>
               <Input id="add-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="add-password">Password</Label>
-              <Input id="add-password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="add-role">Role</Label>
