@@ -33,6 +33,7 @@ const ROLES: AppRole[] = ["super_admin", "city_admin", "subcity_admin", "woreda_
 function UsersPage() {
   const qc = useQueryClient();
   const addUser = useServerFn(createUser);
+  const removeUser = useServerFn(deleteUser);
 
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -42,6 +43,8 @@ function UsersPage() {
   const [subcityId, setSubcityId] = useState("");
   const [woredaId, setWoredaId] = useState("");
   const [busy, setBusy] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<any>(null);
 
   const { data: users, isLoading } = useQuery({
     queryKey: ["users-admin"],
