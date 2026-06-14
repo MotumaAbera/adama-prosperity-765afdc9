@@ -98,6 +98,23 @@ function UsersPage() {
     qc.invalidateQueries({ queryKey: ["users-admin"] });
   };
 
+  const onConfirmDelete = async () => {
+    if (!deleteTarget) return;
+    setBusy(true);
+    try {
+      await removeUser({ data: { userId: deleteTarget.id } });
+      toast.success("User deleted");
+      qc.invalidateQueries({ queryKey: ["users-admin"] });
+      qc.invalidateQueries({ queryKey: ["dashboard-stats"] });
+    } catch (err: any) {
+      toast.error(err.message ?? "Failed to delete user");
+    } finally {
+      setBusy(false);
+      setDeleteOpen(false);
+      setDeleteTarget(null);
+    }
+  };
+
   const onAddUser = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
