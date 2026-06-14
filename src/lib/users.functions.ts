@@ -6,6 +6,7 @@ export const createUser = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: {
     email: string;
+    password: string;
     full_name: string;
     role: AppRole;
     subcity_id?: string | null;
@@ -20,22 +21,31 @@ export const createUser = createServerFn({ method: "POST" })
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    // Invite the user by email — Supabase sends an invitation email with a link
-    // that lands on /set-password where they choose their own password.
     const origin = data.origin || process.env.SITE_URL;
-    const redirectTo = origin ? `${origin.replace(/\/$/, "")}/set-password` : undefined;
+    const redirectTo = origin ? `${origin.replace(/\/$/, "")}/auth` : undefined;
 
-    const { data: invited, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(
-      data.email,
-      {
-        data: { full_name: data.full_name },
-        redirectTo,
-      },
-    );
-    if (inviteError) throw inviteError;
-    if (!invited.user) throw new Error("Invitation failed");
+    // Create the user with their chosen password, but require email confirmation
+    // before they can sign in.
+    const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
+      email: data.email,
+      password: data.password,
+      email_confirm: false,
+      user_metadata: { full_name: data.full_name },
+    });
+    if (createError) throw createError;
+    if (!created.user) throw new Error("User creation failed");
 
-    const newUserId = invited.user.id;
+    const newUserId = created.user.id;
+
+    // Trigger the confirmation email by generating a signup link
+    // (GoTrue sends the email via the configured SMTP/templates).
+    const { error: linkError } = await supabaseAdmin.auth.admin.generateLink({
+      type: "signup",
+      email: data.email,
+      password: data.password,
+      options: { redirectTo },
+    });
+    if (linkError) throw linkError;
 
     await supabaseAdmin.from("user_roles").delete().eq("user_id", newUserId);
     const { error: roleError } = await supabaseAdmin.from("user_roles").insert({

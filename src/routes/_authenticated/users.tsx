@@ -35,6 +35,7 @@ function UsersPage() {
 
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [role, setRole] = useState<AppRole>("viewer");
   const [subcityId, setSubcityId] = useState("");
@@ -100,6 +101,7 @@ function UsersPage() {
       await addUser({
         data: {
           email,
+          password,
           full_name: fullName,
           role,
           subcity_id: subcityId || null,
@@ -107,9 +109,10 @@ function UsersPage() {
           origin: typeof window !== "undefined" ? window.location.origin : undefined,
         },
       });
-      toast.success("Invitation sent. The user will receive an email with a link to set their password.");
+      toast.success("User created. A confirmation email has been sent — they must confirm before signing in.");
       setOpen(false);
       setEmail("");
+      setPassword("");
       setFullName("");
       setRole("viewer");
       setSubcityId("");
@@ -137,7 +140,7 @@ function UsersPage() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Add User</DialogTitle>
-            <DialogDescription>Invite a new user by email. They will receive a link to set their password and confirm their account.</DialogDescription>
+            <DialogDescription>Create a new user with a password. They will receive an email to confirm their account before they can sign in.</DialogDescription>
           </DialogHeader>
           <form onSubmit={onAddUser} className="space-y-4">
             <div className="space-y-2">
@@ -147,6 +150,10 @@ function UsersPage() {
             <div className="space-y-2">
               <Label htmlFor="add-email">Email</Label>
               <Input id="add-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="add-password">Password</Label>
+              <Input id="add-password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="add-role">Role</Label>
