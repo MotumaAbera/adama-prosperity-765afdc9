@@ -214,10 +214,11 @@ function UsersPage() {
                 <TableHead>Role</TableHead>
                 <TableHead>Subcity</TableHead>
                 <TableHead>Active</TableHead>
+                <TableHead className="w-10"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {isLoading && <TableRow><TableCell colSpan={4} className="text-center py-6 text-muted-foreground">Loading…</TableCell></TableRow>}
+              {isLoading && <TableRow><TableCell colSpan={5} className="text-center py-6 text-muted-foreground">Loading…</TableCell></TableRow>}
               {users?.map((u: any) => (
                 <TableRow key={u.id}>
                   <TableCell>
@@ -238,12 +239,37 @@ function UsersPage() {
                     </Select>
                   </TableCell>
                   <TableCell><Switch checked={u.is_active} onCheckedChange={(v) => toggleActive(u.id, v)} /></TableCell>
+                  <TableCell>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-destructive hover:text-destructive"
+                      onClick={() => { setDeleteTarget(u); setDeleteOpen(true); }}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
+
+      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Delete User</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete <strong>{deleteTarget?.full_name || deleteTarget?.email}</strong>? This cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setDeleteOpen(false)} disabled={busy}>Cancel</Button>
+            <Button type="button" variant="destructive" onClick={onConfirmDelete} disabled={busy}>{busy ? "Deleting…" : "Delete"}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
