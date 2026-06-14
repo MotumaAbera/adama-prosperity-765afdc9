@@ -24,28 +24,20 @@ export const createUser = createServerFn({ method: "POST" })
     const origin = data.origin || process.env.SITE_URL;
     const redirectTo = origin ? `${origin.replace(/\/$/, "")}/auth` : undefined;
 
-    // Create the user with their chosen password, but require email confirmation
-    // before they can sign in.
-    const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
+    // Create the user through the signup flow so the confirmation email is sent,
+    // while email confirmation remains required before sign-in.
+    const { data: created, error: createError } = await supabaseAdmin.auth.signUp({
       email: data.email,
       password: data.password,
-      email_confirm: false,
-      user_metadata: { full_name: data.full_name },
+      options: {
+        data: { full_name: data.full_name },
+        emailRedirectTo: redirectTo,
+      },
     });
     if (createError) throw createError;
     if (!created.user) throw new Error("User creation failed");
 
     const newUserId = created.user.id;
-
-    // Trigger the confirmation email by generating a signup link
-    // (GoTrue sends the email via the configured SMTP/templates).
-    const { error: linkError } = await supabaseAdmin.auth.admin.generateLink({
-      type: "signup",
-      email: data.email,
-      password: data.password,
-      options: { redirectTo },
-    });
-    if (linkError) throw linkError;
 
     await supabaseAdmin.from("user_roles").delete().eq("user_id", newUserId);
     const { error: roleError } = await supabaseAdmin.from("user_roles").insert({
