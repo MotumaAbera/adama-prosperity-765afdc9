@@ -64,3 +64,26 @@ export const createUser = createServerFn({ method: "POST" })
 
     return { success: true, userId: newUserId };
   });
+
+export const deleteUser = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { userId: string }) => input)
+  .handler(async ({ data, context }) => {
+    const { supabase, userId: callerId } = context;
+
+    const { data: isAdmin } = await supabase.rpc("is_admin", { _user_id: callerId });
+    if (!isAdmin) throw new Error("Forbidden");
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { error: profileError } = await supabaseAdmin.from("profiles").delete().eq("id", data.userId);
+    if (profileError) throw profileError;
+
+    const { error: roleError } = await supabaseAdmin.from("user_roles").delete().eq("user_id", data.userId);
+    if (roleError) throw roleError;
+
+    const { error: authError } = await supabaseAdmin.auth.admin.deleteUser(data.userId);
+    if (authError) throw authError;
+
+    return { success: true };
+  });
