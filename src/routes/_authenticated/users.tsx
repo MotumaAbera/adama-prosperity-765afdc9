@@ -100,17 +100,15 @@ function UsersPage() {
       await addUser({
         data: {
           email,
-          password,
           full_name: fullName,
           role,
           subcity_id: subcityId || null,
           woreda_id: woredaId || null,
         },
       });
-      toast.success("User created. A confirmation email has been sent — they must verify before signing in.");
+      toast.success("Invitation sent. The user will receive an email with a link to set their password.");
       setOpen(false);
       setEmail("");
-      setPassword("");
       setFullName("");
       setRole("viewer");
       setSubcityId("");
