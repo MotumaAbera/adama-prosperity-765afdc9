@@ -108,7 +108,7 @@ function UsersPage() {
           woreda_id: woredaId || null,
         },
       });
-      toast.success("User created successfully");
+      toast.success("User created. A confirmation email has been sent — they must verify before signing in.");
       setOpen(false);
       setEmail("");
       setPassword("");
