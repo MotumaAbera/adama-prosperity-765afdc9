@@ -10,6 +10,7 @@ export const createUser = createServerFn({ method: "POST" })
     role: AppRole;
     subcity_id?: string | null;
     woreda_id?: string | null;
+    origin?: string;
   }) => input)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
@@ -21,8 +22,8 @@ export const createUser = createServerFn({ method: "POST" })
 
     // Invite the user by email — Supabase sends an invitation email with a link
     // that lands on /set-password where they choose their own password.
-    const siteUrl = process.env.SITE_URL || process.env.VITE_PUBLIC_SITE_URL;
-    const redirectTo = siteUrl ? `${siteUrl}/set-password` : undefined;
+    const origin = data.origin || process.env.SITE_URL;
+    const redirectTo = origin ? `${origin.replace(/\/$/, "")}/set-password` : undefined;
 
     const { data: invited, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(
       data.email,
