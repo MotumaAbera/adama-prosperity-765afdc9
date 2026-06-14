@@ -108,7 +108,7 @@ function UsersPage() {
           woreda_id: woredaId || null,
         },
       });
-      toast.success("User created successfully");
+      toast.success("User created. A confirmation email has been sent — they must verify before signing in.");
       setOpen(false);
       setEmail("");
       setPassword("");
@@ -139,7 +139,7 @@ function UsersPage() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Add User</DialogTitle>
-            <DialogDescription>Create a new user account. The user can sign in immediately.</DialogDescription>
+            <DialogDescription>Create a new user account. They will receive a confirmation email and must verify before signing in.</DialogDescription>
           </DialogHeader>
           <form onSubmit={onAddUser} className="space-y-4">
             <div className="space-y-2">

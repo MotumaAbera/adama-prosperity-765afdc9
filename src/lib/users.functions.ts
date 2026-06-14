@@ -23,13 +23,20 @@ export const createUser = createServerFn({ method: "POST" })
     const { data: userData, error: createError } = await supabaseAdmin.auth.admin.createUser({
       email: data.email,
       password: data.password,
-      email_confirm: true,
+      email_confirm: false,
       user_metadata: { full_name: data.full_name },
     });
     if (createError) throw createError;
     if (!userData.user) throw new Error("User creation failed");
 
     const newUserId = userData.user.id;
+
+    // Send confirmation email so the user must verify before signing in
+    await supabaseAdmin.auth.admin.generateLink({
+      type: "signup",
+      email: data.email,
+      password: data.password,
+    });
 
     await supabaseAdmin.from("user_roles").delete().eq("user_id", newUserId);
     const { error: roleError } = await supabaseAdmin.from("user_roles").insert({
