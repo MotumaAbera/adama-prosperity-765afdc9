@@ -138,20 +138,38 @@ export function FloatingChatbot() {
               const isUser = m.role === "user";
               return (
                 <div key={m.id} className={cn("flex", isUser ? "justify-end" : "justify-start")}>
-                  <div
-                    className={cn(
-                      "max-w-[85%] whitespace-pre-wrap break-words rounded-2xl px-3 py-2 text-sm leading-relaxed",
-                      isUser
-                        ? "bg-[#3e7edd] text-white"
-                        : "bg-black/5 text-black",
-                    )}
-                  >
-                    {text || (
-                      <span className="inline-flex items-center gap-1 text-black/50">
-                        <Loader2 className="h-3 w-3 animate-spin" /> thinking…
-                      </span>
-                    )}
-                  </div>
+                  {isUser ? (
+                    <div className="max-w-[85%] whitespace-pre-wrap break-words rounded-2xl bg-[#3e7edd] px-3 py-2 text-sm leading-relaxed text-white">
+                      {text}
+                    </div>
+                  ) : (
+                    <div className="max-w-[85%] break-words rounded-2xl bg-black/5 px-3 py-2 text-sm leading-relaxed text-black">
+                      {text ? (
+                        <ReactMarkdown
+                          components={{
+                            p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
+                            ul: ({ children }) => <ul className="list-disc pl-4 mb-1">{children}</ul>,
+                            ol: ({ children }) => <ol className="list-decimal pl-4 mb-1">{children}</ol>,
+                            li: ({ children }) => <li className="mb-0.5">{children}</li>,
+                            strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+                            em: ({ children }) => <em className="italic">{children}</em>,
+                            h1: ({ children }) => <h1 className="text-base font-bold mb-1">{children}</h1>,
+                            h2: ({ children }) => <h2 className="text-sm font-bold mb-1">{children}</h2>,
+                            h3: ({ children }) => <h3 className="text-sm font-semibold mb-1">{children}</h3>,
+                            code: ({ children }) => <code className="rounded bg-black/10 px-1 py-0.5 text-xs font-mono">{children}</code>,
+                            pre: ({ children }) => <pre className="rounded-lg bg-black/10 p-2 overflow-x-auto mb-1 text-xs font-mono">{children}</pre>,
+                            a: ({ children, href }) => <a href={href} target="_blank" rel="noopener noreferrer" className="text-[#3e7edd] underline">{children}</a>,
+                          }}
+                        >
+                          {text}
+                        </ReactMarkdown>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-black/50">
+                          <Loader2 className="h-3 w-3 animate-spin" /> thinking…
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
               );
             })}
