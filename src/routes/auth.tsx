@@ -78,7 +78,7 @@ function AuthPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between text-sm text-slate-700">
+            <div className="flex items-center justify-between text-sm text-slate-700 rounded-xl bg-white/15 border border-white/15 backdrop-blur-md px-4 py-3">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
