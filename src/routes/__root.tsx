@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { registerPWA } from "../lib/pwa-register";
 import { AuthProvider } from "@/lib/auth-context";
 import { Toaster } from "@/components/ui/sonner";
+import { FloatingChatbot } from "@/components/FloatingChatbot";
 
 function NotFoundComponent() {
   return (
