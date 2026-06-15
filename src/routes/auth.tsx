@@ -1,13 +1,12 @@
 import { createFileRoute, Navigate, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { Lock, Mail } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import logoAsset from "@/assets/logo.png.asset.json";
+import bgAsset from "@/assets/auth-bg.jpg.asset.json";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -19,6 +18,7 @@ function AuthPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
   const [busy, setBusy] = useState(false);
 
   if (loading) return <div className="flex min-h-screen items-center justify-center">Loading…</div>;
@@ -40,37 +40,66 @@ function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-secondary/30 to-accent/30 p-4">
+    <div
+      className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${bgAsset.url})` }}
+    >
       <div className="w-full max-w-md">
-        <div className="flex flex-col items-center mb-6 text-center">
-          <div className="h-20 w-20 rounded-2xl bg-white border flex items-center justify-center mb-3 shadow-md overflow-hidden">
-            <img src={logoAsset.url} alt="Adama City Prosperity Party logo" className="h-16 w-16 object-contain" />
+        <div className="rounded-2xl border border-white/40 bg-white/20 backdrop-blur-xl shadow-2xl p-8">
+          <div className="flex flex-col items-center mb-6 text-center">
+            <div className="h-16 w-16 rounded-2xl bg-white/80 border border-white/60 flex items-center justify-center mb-3 shadow-md overflow-hidden">
+              <img src={logoAsset.url} alt="Adama City Prosperity Party logo" className="h-12 w-12 object-contain" />
+            </div>
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-800">Login</h1>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">Adama City Prosperity Party</h1>
-          <p className="text-sm text-muted-foreground">Paartii Badhaadhinaa Magaalaa Adaamaa</p>
-          <p className="text-xs text-muted-foreground mt-1">Document Management System</p>
+
+          <form onSubmit={onSubmit} className="space-y-4">
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-600" />
+              <input
+                type="email"
+                required
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full h-11 pl-10 pr-4 rounded-full bg-white/40 border border-white/50 backdrop-blur-md text-slate-800 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-white/70"
+              />
+            </div>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-600" />
+              <input
+                type="password"
+                required
+                minLength={6}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full h-11 pl-10 pr-4 rounded-full bg-white/40 border border-white/50 backdrop-blur-md text-slate-800 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-white/70"
+              />
+            </div>
+
+            <div className="flex items-center justify-between text-sm text-slate-700">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={remember}
+                  onChange={(e) => setRemember(e.target.checked)}
+                  className="h-4 w-4 rounded border-white/60 accent-slate-700"
+                />
+                Remember Me
+              </label>
+              <button type="button" className="hover:underline">Forgot Password?</button>
+            </div>
+
+            <Button
+              type="submit"
+              disabled={busy}
+              className="w-full h-11 rounded-full bg-white/80 hover:bg-white text-slate-800 font-medium shadow-md"
+            >
+              {busy ? "Please wait…" : "Submit"}
+            </Button>
+          </form>
         </div>
-        <Card>
-          <CardHeader>
-            <CardTitle>Sign in</CardTitle>
-            <CardDescription>Access the secure document repository</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={onSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
-              </div>
-              <Button type="submit" className="w-full" disabled={busy}>
-                {busy ? "Please wait…" : "Sign In"}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
