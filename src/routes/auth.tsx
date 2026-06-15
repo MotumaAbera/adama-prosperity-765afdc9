@@ -55,9 +55,9 @@ function AuthPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-11 pl-5 pr-10 rounded-full border border-white/25 bg-transparent text-white placeholder:text-white/70 focus:outline-none focus:ring-1 focus:ring-white/60"
+                className="w-full h-11 pl-5 pr-10 rounded-full border border-brand/60 bg-transparent text-brand placeholder:text-brand/70 focus:outline-none focus:ring-1 focus:ring-brand"
               />
-              <Mail className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/80" />
+              <Mail className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-brand" />
             </div>
             <div className="relative">
               <input
@@ -66,9 +66,9 @@ function AuthPage() {
                 minLength={6}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-11 pl-5 pr-10 rounded-full border border-white/25 bg-transparent text-white placeholder:text-white/70 focus:outline-none focus:ring-1 focus:ring-white/60"
+                className="w-full h-11 pl-5 pr-10 rounded-full border border-brand/60 bg-transparent text-brand placeholder:text-brand/70 focus:outline-none focus:ring-1 focus:ring-brand"
               />
-              <Lock className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/80" />
+              <Lock className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-brand" />
             </div>
 
             <div className="flex items-center justify-between text-xs text-white/90 pt-1">
@@ -77,7 +77,7 @@ function AuthPage() {
                   type="checkbox"
                   checked={remember}
                   onChange={(e) => setRemember(e.target.checked)}
-                  className="h-3.5 w-3.5 rounded-sm border-white/60 accent-white"
+                  className="h-3.5 w-3.5 rounded-sm border-brand/60 accent-brand"
                 />
                 Remember Me
               </label>
@@ -87,7 +87,7 @@ function AuthPage() {
             <Button
               type="submit"
               disabled={busy}
-              className="w-full h-11 rounded-full bg-white/90 hover:bg-white text-slate-800 font-medium shadow-md"
+              className="w-full h-11 rounded-full bg-brand hover:bg-brand-strong text-white font-medium shadow-md border border-brand/80"
             >
               {busy ? "Please wait…" : "Submit"}
             </Button>
