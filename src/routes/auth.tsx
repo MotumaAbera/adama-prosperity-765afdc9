@@ -75,7 +75,7 @@ function AuthPage() {
               <Lock className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-brand" />
             </div>
 
-            <div className="flex items-center justify-between text-xs text-white/90 pt-1">
+            <div className="flex items-center justify-between text-xs text-brand/90 pt-1">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
