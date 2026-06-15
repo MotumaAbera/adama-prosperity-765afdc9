@@ -44,47 +44,40 @@ function AuthPage() {
       className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${bgAsset.url})` }}
     >
-      <div className="w-full max-w-md">
-        <div className="rounded-xl border border-white/15 backdrop-blur-xl shadow-2xl p-8">
-          <div className="flex flex-col items-center mb-6 text-center">
-            <div className="h-16 w-16 rounded-xl border border-white/20 flex items-center justify-center mb-3 shadow-md overflow-hidden">
-              <img src={logoAsset.url} alt="Adama City Prosperity Party logo" className="h-12 w-12 object-contain" />
-            </div>
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-800">Login</h1>
-          </div>
+      <div className="w-full max-w-sm">
+        <div className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-xl shadow-2xl px-8 py-10">
+          <h1 className="text-2xl font-medium tracking-tight text-white text-center mb-8">Login</h1>
 
           <form onSubmit={onSubmit} className="space-y-4">
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-600" />
               <input
                 type="email"
                 required
-                placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-11 pl-10 pr-4 rounded-xl border border-white/15 backdrop-blur-md text-slate-800 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-white/70"
+                className="w-full h-11 pl-5 pr-10 rounded-full border border-white/25 bg-transparent text-white placeholder:text-white/70 focus:outline-none focus:ring-1 focus:ring-white/60"
               />
+              <Mail className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/80" />
             </div>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-600" />
               <input
                 type="password"
                 required
                 minLength={6}
-                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-11 pl-10 pr-4 rounded-xl border border-white/15 backdrop-blur-md text-slate-800 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-white/70"
+                className="w-full h-11 pl-5 pr-10 rounded-full border border-white/25 bg-transparent text-white placeholder:text-white/70 focus:outline-none focus:ring-1 focus:ring-white/60"
               />
+              <Lock className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/80" />
             </div>
 
-            <div className="flex items-center justify-between text-sm text-slate-700 rounded-xl border border-white/15 backdrop-blur-md px-4 py-3">
+            <div className="flex items-center justify-between text-xs text-white/90 pt-1">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={remember}
                   onChange={(e) => setRemember(e.target.checked)}
-                  className="h-4 w-4 rounded border-white/60 accent-slate-700"
+                  className="h-3.5 w-3.5 rounded-sm border-white/60 accent-white"
                 />
                 Remember Me
               </label>
@@ -94,11 +87,20 @@ function AuthPage() {
             <Button
               type="submit"
               disabled={busy}
-              className="w-full h-11 rounded-xl border border-white/15 backdrop-blur-md text-slate-800 font-medium shadow-md"
+              className="w-full h-11 rounded-full bg-white/90 hover:bg-white text-slate-800 font-medium shadow-md"
             >
               {busy ? "Please wait…" : "Submit"}
             </Button>
+
+            <p className="text-center text-xs text-white/80 pt-1">
+              Don&apos;t have an account?{" "}
+              <button type="button" className="text-white hover:underline">Register</button>
+            </p>
           </form>
+        </div>
+
+        <div className="flex justify-center mt-4 opacity-80">
+          <img src={logoAsset.url} alt="Logo" className="h-8 w-8 object-contain" />
         </div>
       </div>
     </div>
