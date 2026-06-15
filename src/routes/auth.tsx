@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import logoAsset from "@/assets/logo.png.asset.json";
-import bgAsset from "@/assets/auth-bg.jpg.asset.json";
+import bgAsset from "@/assets/bachground.jpg.asset.json";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -42,7 +42,7 @@ function AuthPage() {
   return (
     <div className="relative min-h-screen flex items-center justify-center p-4">
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15"
         style={{ backgroundImage: `url(${bgAsset.url})` }}
       />
         <div className="w-full max-w-sm">
