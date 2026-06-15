@@ -124,13 +124,13 @@ function Dashboard() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-        <StatCard icon={FileText} label="Total Documents" value={stats?.documents} accentIndex={0} />
-        <StatCard icon={Users} label="Total Users" value={stats?.users} accentIndex={1} />
-        <StatCard icon={Building2} label="Subcities" value={stats?.subcities} accentIndex={2} />
-        <StatCard icon={MapPin} label="Woredas" value={stats?.woredas} accentIndex={3} />
-        <StatCard icon={Tag} label="Categories" value={stats?.categories} accentIndex={4} />
-        <StatCard icon={Download} label="Downloads" value={stats?.downloads} accentIndex={5} />
-        <StatCard icon={Upload} label="Uploaded Today" value={stats?.todayUploads} accentIndex={6} />
+        <StatCard icon={FileText} label="Total Documents" value={stats?.documents} />
+        <StatCard icon={Users} label="Total Users" value={stats?.users} />
+        <StatCard icon={Building2} label="Subcities" value={stats?.subcities} />
+        <StatCard icon={MapPin} label="Woredas" value={stats?.woredas} />
+        <StatCard icon={Tag} label="Categories" value={stats?.categories} />
+        <StatCard icon={Download} label="Downloads" value={stats?.downloads} />
+        <StatCard icon={Upload} label="Uploaded Today" value={stats?.todayUploads} />
       </div>
 
       <div className="grid lg:grid-cols-2 gap-4">
