@@ -19,6 +19,24 @@ export const Route = createFileRoute("/_authenticated/documents")({
   component: DocumentsPage,
 });
 
+function docIcon(fileName?: string) {
+  const ext = fileName?.split(".").pop()?.toLowerCase() ?? "";
+  const common: Record<string, React.ComponentType<{ className?: string }>> = {
+    pdf: FileText,
+    doc: FileType, docx: FileType, odt: FileType, rtf: FileType,
+    xls: FileSpreadsheet, xlsx: FileSpreadsheet, csv: FileSpreadsheet, ods: FileSpreadsheet,
+    ppt: FileText, pptx: FileText, odp: FileText,
+    jpg: FileImage, jpeg: FileImage, png: FileImage, gif: FileImage, webp: FileImage, svg: FileImage, bmp: FileImage,
+    mp4: FileVideo, mov: FileVideo, avi: FileVideo, mkv: FileVideo, webm: FileVideo,
+    mp3: FileAudio, wav: FileAudio, ogg: FileAudio, flac: FileAudio, aac: FileAudio,
+    zip: File, rar: File, "7z": File, tar: File, gz: File,
+    js: FileCode, ts: FileCode, jsx: FileCode, tsx: FileCode, py: FileCode, java: FileCode, c: FileCode, cpp: FileCode, h: FileCode, go: FileCode, rs: FileCode, php: FileCode, html: FileCode, css: FileCode, sql: FileCode,
+    json: FileCode, xml: FileCode, yaml: FileCode, yml: FileCode, toml: FileCode,
+    txt: FileText, md: FileText, log: FileText,
+  };
+  return common[ext] ?? FileText;
+}
+
 const CONF_COLOR: Record<string, string> = {
   "Public": "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-200",
   "Internal": "bg-sky-100 text-sky-800 dark:bg-sky-900/30 dark:text-sky-200",
