@@ -92,9 +92,9 @@ function AuthPage() {
             <Button
               type="submit"
               disabled={busy}
-              className="w-full h-11 rounded-full bg-white/90 hover:bg-white text-brand font-medium shadow-md border border-brand/80"
+              className="w-full h-11 rounded-full bg-brand hover:bg-brand/90 text-white font-medium shadow-md border border-brand/80"
             >
-              {busy ? "Please wait…" : "Submit"}
+              {busy ? "Please wait…" : "Sign in"}
             </Button>
 
             <p className="text-center text-xs text-brand/80 pt-1">
