@@ -57,6 +57,7 @@ function AuthPage() {
               <input
                 type="email"
                 required
+                placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full h-11 pl-5 pr-10 rounded-full border border-brand/60 bg-transparent text-brand placeholder:text-brand/70 focus:outline-none focus:ring-1 focus:ring-brand"
@@ -68,6 +69,7 @@ function AuthPage() {
                 type="password"
                 required
                 minLength={6}
+                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full h-11 pl-5 pr-10 rounded-full border border-brand/60 bg-transparent text-brand placeholder:text-brand/70 focus:outline-none focus:ring-1 focus:ring-brand"
