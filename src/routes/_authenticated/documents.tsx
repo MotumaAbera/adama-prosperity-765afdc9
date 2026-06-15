@@ -174,8 +174,14 @@ function DocumentsPage() {
               {filtered.map((d: any) => (
                 <TableRow key={d.id}>
                   <TableCell className="font-medium max-w-xs">
-                    <div className="truncate">{d.title}</div>
-                    {d.document_number && <div className="text-xs text-muted-foreground">#{d.document_number}</div>}
+                    <div className="flex items-center gap-2">
+                      {(() => {
+                        const Icon = docIcon(d.file_name);
+                        return <Icon className="h-4 w-4 shrink-0 text-[#3e7edd]" />;
+                      })()}
+                      <span className="truncate">{d.title}</span>
+                    </div>
+                    {d.document_number && <div className="text-xs text-muted-foreground pl-6">#{d.document_number}</div>}
                   </TableCell>
                   <TableCell className="text-sm">{catName(d.category_id)}</TableCell>
                   <TableCell className="text-sm">{subName(d.subcity_id)}</TableCell>
