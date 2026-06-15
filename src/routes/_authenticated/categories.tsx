@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/categories")({
 function CategoriesPage() {
   const qc = useQueryClient();
   const [name, setName] = useState("");
-  const { data, isLoading } = useQuery({ queryKey: ["cats-admin"], queryFn: async () => (await db.from("categories").select("*").order("name")).data ?? [] });
+  const { data, isLoading } = useQuery({ queryKey: ["cats-admin"], queryFn: async () => (await db.from("categories").select("*").order("code", { ascending: true })).data ?? [] });
 
   const add = async () => {
     if (!name.trim()) return;
