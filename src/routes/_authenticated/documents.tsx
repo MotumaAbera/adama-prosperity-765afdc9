@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { Download, Trash2, Search, Archive, FileText } from "lucide-react";
+import { Download, Trash2, Search, Archive, FileText, FileImage, FileVideo, FileAudio, FileSpreadsheet, FileCode, FileType, File } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { format } from "date-fns";
@@ -18,6 +18,24 @@ export const Route = createFileRoute("/_authenticated/documents")({
   ssr: false,
   component: DocumentsPage,
 });
+
+function docIcon(fileName?: string) {
+  const ext = fileName?.split(".").pop()?.toLowerCase() ?? "";
+  const common: Record<string, React.ComponentType<{ className?: string }>> = {
+    pdf: FileText,
+    doc: FileType, docx: FileType, odt: FileType, rtf: FileType,
+    xls: FileSpreadsheet, xlsx: FileSpreadsheet, csv: FileSpreadsheet, ods: FileSpreadsheet,
+    ppt: FileText, pptx: FileText, odp: FileText,
+    jpg: FileImage, jpeg: FileImage, png: FileImage, gif: FileImage, webp: FileImage, svg: FileImage, bmp: FileImage,
+    mp4: FileVideo, mov: FileVideo, avi: FileVideo, mkv: FileVideo, webm: FileVideo,
+    mp3: FileAudio, wav: FileAudio, ogg: FileAudio, flac: FileAudio, aac: FileAudio,
+    zip: File, rar: File, "7z": File, tar: File, gz: File,
+    js: FileCode, ts: FileCode, jsx: FileCode, tsx: FileCode, py: FileCode, java: FileCode, c: FileCode, cpp: FileCode, h: FileCode, go: FileCode, rs: FileCode, php: FileCode, html: FileCode, css: FileCode, sql: FileCode,
+    json: FileCode, xml: FileCode, yaml: FileCode, yml: FileCode, toml: FileCode,
+    txt: FileText, md: FileText, log: FileText,
+  };
+  return common[ext] ?? FileText;
+}
 
 const CONF_COLOR: Record<string, string> = {
   "Public": "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-200",
@@ -156,8 +174,14 @@ function DocumentsPage() {
               {filtered.map((d: any) => (
                 <TableRow key={d.id}>
                   <TableCell className="font-medium max-w-xs">
-                    <div className="truncate">{d.title}</div>
-                    {d.document_number && <div className="text-xs text-muted-foreground">#{d.document_number}</div>}
+                    <div className="flex items-center gap-2">
+                      {(() => {
+                        const Icon = docIcon(d.file_name);
+                        return <Icon className="h-4 w-4 shrink-0 text-[#3e7edd]" />;
+                      })()}
+                      <span className="truncate">{d.title}</span>
+                    </div>
+                    {d.document_number && <div className="text-xs text-muted-foreground pl-6">#{d.document_number}</div>}
                   </TableCell>
                   <TableCell className="text-sm">{catName(d.category_id)}</TableCell>
                   <TableCell className="text-sm">{subName(d.subcity_id)}</TableCell>
