@@ -119,7 +119,7 @@ function Dashboard() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <StatCard icon={FileText} label="Total Documents" value={stats?.documents} />
         <StatCard icon={Users} label="Total Users" value={stats?.users} />
         <StatCard icon={Building2} label="Subcities" value={stats?.subcities} />
