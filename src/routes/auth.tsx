@@ -102,10 +102,6 @@ function AuthPage() {
             </p>
           </form>
         </div>
-
-        <div className="flex justify-center mt-4 opacity-80">
-          <img src={logoAsset.url} alt="Logo" className="h-8 w-8 object-contain" />
-        </div>
       </div>
     </div>
   );
