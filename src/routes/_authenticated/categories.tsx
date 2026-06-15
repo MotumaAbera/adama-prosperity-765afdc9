@@ -51,9 +51,9 @@ function CategoriesPage() {
             <TableHeader><TableRow><TableHead className="w-16">Code</TableHead><TableHead>Name</TableHead><TableHead className="w-20"></TableHead></TableRow></TableHeader>
             <TableBody>
               {isLoading && <TableRow><TableCell colSpan={3} className="text-center py-6 text-muted-foreground">Loading…</TableCell></TableRow>}
-              {data?.map((c: any, i: number) => (
+              {data?.map((c: any) => (
                 <TableRow key={c.id}>
-                  <TableCell className="font-mono font-semibold text-brand">{String(i + 1).padStart(2, "0")}</TableCell>
+                  <TableCell className="font-mono font-semibold text-brand">{c.code ?? "—"}</TableCell>
                   <TableCell>{c.name}</TableCell>
                   <TableCell className="text-right"><Button size="icon" variant="ghost" onClick={() => remove(c.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button></TableCell>
                 </TableRow>
