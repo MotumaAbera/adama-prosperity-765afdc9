@@ -14,21 +14,17 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 
 const BRAND = "#3e7edd";
 
-function StatCard({ icon: Icon, label, value, hint }: any) {
+function StatCard({ icon: Icon, label, value }: any) {
   return (
-    <Card className="relative overflow-hidden border-border/60 hover:shadow-[var(--shadow-card)] transition-shadow">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#3e7edd]/10 to-transparent pointer-events-none" />
-      <CardContent className="relative p-5 flex items-center gap-4">
-        <div className="h-12 w-12 rounded-xl bg-[#3e7edd]/10 flex items-center justify-center shrink-0">
-          <Icon className="h-6 w-6 text-[#3e7edd]" />
-        </div>
-        <div className="min-w-0">
-          <div className="text-2xl font-bold tracking-tight text-foreground">{value ?? "—"}</div>
-          <div className="text-xs text-muted-foreground font-medium">{label}</div>
-          {hint && <div className="text-[10px] text-muted-foreground mt-0.5">{hint}</div>}
-        </div>
-      </CardContent>
-    </Card>
+    <div className="flex items-center gap-4 rounded-2xl border border-black/10 bg-white px-5 py-4">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#3e7edd]">
+        <Icon className="h-5 w-5 text-white" />
+      </div>
+      <div>
+        <div className="text-xl font-bold tracking-tight text-black">{value ?? "—"}</div>
+        <div className="text-[11px] font-medium text-black/50">{label}</div>
+      </div>
+    </div>
   );
 }
 
