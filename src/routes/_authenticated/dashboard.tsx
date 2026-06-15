@@ -13,29 +13,17 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 const BRAND = "#3e7edd";
-const COLORS = [BRAND, "oklch(0.7 0.14 220)", "oklch(0.65 0.15 200)", "oklch(0.6 0.16 180)", "oklch(0.55 0.18 254)"];
 
-const ACCENTS = [
-  "from-[#3e7edd]/15 to-[#3e7edd]/0 text-[#3e7edd] ring-[#3e7edd]/20",
-  "from-sky-500/15 to-sky-500/0 text-sky-600 ring-sky-500/20 dark:text-sky-300",
-  "from-indigo-500/15 to-indigo-500/0 text-indigo-600 ring-indigo-500/20 dark:text-indigo-300",
-  "from-cyan-500/15 to-cyan-500/0 text-cyan-600 ring-cyan-500/20 dark:text-cyan-300",
-  "from-violet-500/15 to-violet-500/0 text-violet-600 ring-violet-500/20 dark:text-violet-300",
-  "from-emerald-500/15 to-emerald-500/0 text-emerald-600 ring-emerald-500/20 dark:text-emerald-300",
-  "from-amber-500/15 to-amber-500/0 text-amber-600 ring-amber-500/20 dark:text-amber-300",
-];
-
-function StatCard({ icon: Icon, label, value, hint, accentIndex = 0 }: any) {
-  const accent = ACCENTS[accentIndex % ACCENTS.length];
+function StatCard({ icon: Icon, label, value, hint }: any) {
   return (
     <Card className="relative overflow-hidden border-border/60 hover:shadow-[var(--shadow-card)] transition-shadow">
-      <div className={`absolute inset-0 bg-gradient-to-br ${accent.split(" ").filter(c => c.startsWith("from-") || c.startsWith("to-")).join(" ")} pointer-events-none`} />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#3e7edd]/10 to-transparent pointer-events-none" />
       <CardContent className="relative p-5 flex items-center gap-4">
-        <div className={`h-12 w-12 rounded-xl bg-card ring-1 flex items-center justify-center shrink-0 ${accent.split(" ").filter(c => c.startsWith("text-") || c.startsWith("ring-") || c.startsWith("dark:")).join(" ")}`}>
-          <Icon className="h-6 w-6" />
+        <div className="h-12 w-12 rounded-xl bg-[#3e7edd]/10 flex items-center justify-center shrink-0">
+          <Icon className="h-6 w-6 text-[#3e7edd]" />
         </div>
         <div className="min-w-0">
-          <div className="text-2xl font-bold tracking-tight">{value ?? "—"}</div>
+          <div className="text-2xl font-bold tracking-tight text-foreground">{value ?? "—"}</div>
           <div className="text-xs text-muted-foreground font-medium">{label}</div>
           {hint && <div className="text-[10px] text-muted-foreground mt-0.5">{hint}</div>}
         </div>
