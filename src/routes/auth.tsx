@@ -45,8 +45,12 @@ function AuthPage() {
       style={{ backgroundImage: `url(${bgAsset.url})` }}
     >
       <div className="w-full max-w-sm">
+        <div className="flex justify-center mb-4 opacity-80">
+          <img src={logoAsset.url} alt="Logo" className="h-10 w-10 object-contain" />
+        </div>
+
         <div className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-xl shadow-2xl px-8 py-10">
-          <h1 className="text-2xl font-medium tracking-tight text-white text-center mb-8">Login</h1>
+          <h1 className="text-2xl font-medium tracking-tight text-brand text-center mb-8">Login</h1>
 
           <form onSubmit={onSubmit} className="space-y-4">
             <div className="relative">
