@@ -78,7 +78,7 @@ function AuthPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between text-sm text-slate-700">
+            <div className="flex items-center justify-between text-sm text-slate-700 rounded-xl bg-white/15 border border-white/15 backdrop-blur-md px-4 py-3">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -94,7 +94,7 @@ function AuthPage() {
             <Button
               type="submit"
               disabled={busy}
-              className="w-full h-11 rounded-xl bg-white/25 hover:bg-white/50 text-slate-800 font-medium shadow-md"
+              className="w-full h-11 rounded-xl bg-white/15 hover:bg-white/35 border border-white/15 backdrop-blur-md text-slate-800 font-medium shadow-md"
             >
               {busy ? "Please wait…" : "Submit"}
             </Button>
