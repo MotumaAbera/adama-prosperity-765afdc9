@@ -21,7 +21,8 @@ function CategoriesPage() {
 
   const add = async () => {
     if (!name.trim()) return;
-    const { error } = await db.from("categories").insert({ name: name.trim() });
+    const nextCode = String((data?.length ?? 0) + 1).padStart(2, "0");
+    const { error } = await db.from("categories").insert({ name: name.trim(), code: nextCode });
     if (error) return toast.error(error.message);
     toast.success("Category added");
     setName("");
