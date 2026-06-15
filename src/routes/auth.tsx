@@ -96,9 +96,9 @@ function AuthPage() {
               {busy ? "Please wait…" : "Submit"}
             </Button>
 
-            <p className="text-center text-xs text-white/80 pt-1">
+            <p className="text-center text-xs text-brand/80 pt-1">
               Don&apos;t have an account?{" "}
-              <button type="button" className="text-white hover:underline">Register</button>
+              <button type="button" className="text-brand hover:underline">Register</button>
             </p>
           </form>
         </div>
