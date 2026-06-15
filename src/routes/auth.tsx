@@ -55,9 +55,9 @@ function AuthPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-11 pl-5 pr-10 rounded-full border border-white/25 bg-transparent text-white placeholder:text-white/70 focus:outline-none focus:ring-1 focus:ring-white/60"
+                className="w-full h-11 pl-5 pr-10 rounded-full border border-brand/60 bg-transparent text-brand placeholder:text-brand/70 focus:outline-none focus:ring-1 focus:ring-brand"
               />
-              <Mail className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/80" />
+              <Mail className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-brand" />
             </div>
             <div className="relative">
               <input
@@ -66,9 +66,9 @@ function AuthPage() {
                 minLength={6}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-11 pl-5 pr-10 rounded-full border border-white/25 bg-transparent text-white placeholder:text-white/70 focus:outline-none focus:ring-1 focus:ring-white/60"
+                className="w-full h-11 pl-5 pr-10 rounded-full border border-brand/60 bg-transparent text-brand placeholder:text-brand/70 focus:outline-none focus:ring-1 focus:ring-brand"
               />
-              <Lock className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/80" />
+              <Lock className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-brand" />
             </div>
 
             <div className="flex items-center justify-between text-xs text-white/90 pt-1">
