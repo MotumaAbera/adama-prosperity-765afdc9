@@ -51,18 +51,21 @@ export type Database = {
       }
       categories: {
         Row: {
+          code: string | null
           created_at: string
           description: string | null
           id: string
           name: string
         }
         Insert: {
+          code?: string | null
           created_at?: string
           description?: string | null
           id?: string
           name: string
         }
         Update: {
+          code?: string | null
           created_at?: string
           description?: string | null
           id?: string
