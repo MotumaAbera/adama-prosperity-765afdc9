@@ -47,11 +47,12 @@ function CategoriesPage() {
       <Card>
         <CardContent className="p-0">
           <Table>
-            <TableHeader><TableRow><TableHead>Name</TableHead><TableHead className="w-20"></TableHead></TableRow></TableHeader>
+            <TableHeader><TableRow><TableHead className="w-16">Code</TableHead><TableHead>Name</TableHead><TableHead className="w-20"></TableHead></TableRow></TableHeader>
             <TableBody>
-              {isLoading && <TableRow><TableCell colSpan={2} className="text-center py-6 text-muted-foreground">Loading…</TableCell></TableRow>}
-              {data?.map((c: any) => (
+              {isLoading && <TableRow><TableCell colSpan={3} className="text-center py-6 text-muted-foreground">Loading…</TableCell></TableRow>}
+              {data?.map((c: any, i: number) => (
                 <TableRow key={c.id}>
+                  <TableCell className="font-mono font-semibold text-brand">{String(i + 1).padStart(2, "0")}</TableCell>
                   <TableCell>{c.name}</TableCell>
                   <TableCell className="text-right"><Button size="icon" variant="ghost" onClick={() => remove(c.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button></TableCell>
                 </TableRow>
