@@ -42,7 +42,7 @@ function AuthPage() {
   return (
     <div className="relative min-h-screen flex items-center justify-center p-4">
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
         style={{ backgroundImage: `url(${bgAsset.url})` }}
       />
         <div className="w-full max-w-sm">
