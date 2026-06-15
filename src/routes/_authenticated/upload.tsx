@@ -53,7 +53,7 @@ function UploadPage() {
   }, [profile, lockSubcity, lockWoreda, isCityLevel]);
 
 
-  const { data: cats } = useQuery({ queryKey: ["cats"], queryFn: async () => (await db.from("categories").select("id,name").order("name")).data ?? [] });
+  const { data: cats } = useQuery({ queryKey: ["cats"], queryFn: async () => (await db.from("categories").select("id,name,code").order("code", { ascending: true })).data ?? [] });
   const { data: subs } = useQuery({ queryKey: ["subs"], queryFn: async () => (await db.from("subcities").select("id,name").order("name")).data ?? [] });
   const { data: wors } = useQuery({
     queryKey: ["wors", form.subcity_id], enabled: !!form.subcity_id,
