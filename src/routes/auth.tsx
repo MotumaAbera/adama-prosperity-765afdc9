@@ -45,8 +45,12 @@ function AuthPage() {
       style={{ backgroundImage: `url(${bgAsset.url})` }}
     >
       <div className="w-full max-w-sm">
+        <div className="flex justify-center mb-4 opacity-80">
+          <img src={logoAsset.url} alt="Logo" className="h-10 w-10 object-contain" />
+        </div>
+
         <div className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-xl shadow-2xl px-8 py-10">
-          <h1 className="text-2xl font-medium tracking-tight text-white text-center mb-8">Login</h1>
+          <h1 className="text-2xl font-medium tracking-tight text-brand text-center mb-8">Login</h1>
 
           <form onSubmit={onSubmit} className="space-y-4">
             <div className="relative">
@@ -71,7 +75,7 @@ function AuthPage() {
               <Lock className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-brand" />
             </div>
 
-            <div className="flex items-center justify-between text-xs text-white/90 pt-1">
+            <div className="flex items-center justify-between text-xs text-brand/90 pt-1">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -87,20 +91,16 @@ function AuthPage() {
             <Button
               type="submit"
               disabled={busy}
-              className="w-full h-11 rounded-full bg-brand hover:bg-brand-strong text-white font-medium shadow-md border border-brand/80"
+              className="w-full h-11 rounded-full bg-white/90 hover:bg-white text-brand font-medium shadow-md border border-brand/80"
             >
               {busy ? "Please wait…" : "Submit"}
             </Button>
 
-            <p className="text-center text-xs text-white/80 pt-1">
+            <p className="text-center text-xs text-brand/80 pt-1">
               Don&apos;t have an account?{" "}
-              <button type="button" className="text-white hover:underline">Register</button>
+              <button type="button" className="text-brand hover:underline">Register</button>
             </p>
           </form>
-        </div>
-
-        <div className="flex justify-center mt-4 opacity-80">
-          <img src={logoAsset.url} alt="Logo" className="h-8 w-8 object-contain" />
         </div>
       </div>
     </div>
