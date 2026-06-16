@@ -25,6 +25,7 @@ const adminItems = [
   { title: "Woredas", url: "/woredas", icon: MapPin },
   { title: "Users", url: "/users", icon: Users },
   { title: "Audit Logs", url: "/audit", icon: ClipboardList },
+  { title: "Profile", url: "/profile", icon: User },
 ];
 
 export function AppSidebar() {
