@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, Navigate } from "@tanstack/react-router";
 import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
@@ -38,15 +39,17 @@ function AuthenticatedLayout() {
         <div className="flex-1 flex flex-col min-w-0">
           <div className="h-1 bg-[#3e7edd] shrink-0" />
           <header className="h-14 flex items-center gap-2 border-b bg-card px-4 sticky top-0 z-10">
-            <HamburgerTrigger />
+            <HamburgerTrigger className="hidden md:inline-flex" />
+            <div className="md:hidden font-semibold text-sm tracking-tight">Adama DMS</div>
             <div className="flex-1" />
             <div className="text-xs text-muted-foreground hidden md:block">
               Adama City Prosperity Party · Document Management System
             </div>
           </header>
-          <main className="flex-1 p-6 overflow-auto">
+          <main className="flex-1 p-4 md:p-6 overflow-auto pb-24 md:pb-6">
             <Outlet />
           </main>
+          <MobileBottomNav />
         </div>
       </div>
     </SidebarProvider>
