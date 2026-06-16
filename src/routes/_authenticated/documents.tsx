@@ -121,10 +121,10 @@ function DocumentsPage() {
       if (!map.has(key)) map.set(key, []);
       map.get(key)!.push(d);
     }
-    const list = (cats ?? []).map((c: any) => ({
-      id: c.id,
-      name: c.name,
-      code: c.code,
+    const list: { id: string; name: string; code?: string; docs: any[] }[] = (cats ?? []).map((c: any) => ({
+      id: c.id as string,
+      name: c.name as string,
+      code: c.code as string | undefined,
       docs: map.get(c.id) ?? [],
     }));
     const uncat = map.get("__uncat");
