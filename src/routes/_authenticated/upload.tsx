@@ -234,6 +234,13 @@ function UploadPage() {
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>{CONFIDENTIALITY_LEVELS.map(l => <SelectItem key={l} value={l}>{l}</SelectItem>)}</SelectContent>
               </Select>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {form.confidentiality_level === "Public" && "Visible to every signed-in user across the system."}
+                {form.confidentiality_level === "Internal" && "Visible to everyone in the document's subcity (and its woredas)."}
+                {form.confidentiality_level === "Restricted" && "Visible only to you (and system admins)."}
+                {form.confidentiality_level === "Confidential" && "Visible to you and same-role colleagues in the same location."}
+                {form.confidentiality_level === "Top Secret" && "Visible to you and same-role colleagues in the same location. Highest sensitivity."}
+              </p>
             </div>
             {!isCityLevel && (
               <div className="space-y-2">
