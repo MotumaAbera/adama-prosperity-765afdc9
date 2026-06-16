@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard, Upload, FileText, Tag, Building2, MapPin, Users,
-  ClipboardList, LogOut, ChevronRight,
+  ClipboardList, LogOut, ChevronRight, User,
 } from "lucide-react";
 import logoAsset from "@/assets/logo.png.asset.json";
 import { useAuth } from "@/lib/auth-context";
