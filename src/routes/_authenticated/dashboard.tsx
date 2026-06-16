@@ -115,7 +115,7 @@ function Dashboard() {
           Welcome back, {profile?.full_name?.split(" ")[0] || profile?.email?.split("@")[0]}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Prosperity Party · Document Management System
+          Adama City PP DMS
         </p>
       </div>
 
