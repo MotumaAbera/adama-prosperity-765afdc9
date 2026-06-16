@@ -110,7 +110,7 @@ export function AppSidebar() {
             </div>
             {!collapsed && (
               <div className="min-w-0">
-                <div className="text-[15px] font-bold text-white truncate tracking-tight">Adama DMS</div>
+                <div className="text-[15px] font-bold text-white truncate tracking-tight">Adama City PP DMS</div>
                 <div className="text-[10px] text-white/65 truncate uppercase tracking-[0.14em] font-medium">Prosperity Party</div>
               </div>
             )}
