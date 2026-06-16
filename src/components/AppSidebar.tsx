@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard, Upload, FileText, Tag, Building2, MapPin, Users,
-  ClipboardList, LogOut, ChevronRight, User,
+  ClipboardList, LogOut, ChevronRight, User, Megaphone,
 } from "lucide-react";
 import logoAsset from "@/assets/logo.png.asset.json";
 import { useAuth } from "@/lib/auth-context";
@@ -17,6 +17,7 @@ const navItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Upload Document", url: "/upload", icon: Upload },
   { title: "Documents", url: "/documents", icon: FileText },
+  { title: "Announcements", url: "/announcements", icon: Megaphone },
 ];
 
 const adminItems = [
