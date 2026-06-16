@@ -17,7 +17,6 @@ const navItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Upload Document", url: "/upload", icon: Upload },
   { title: "Documents", url: "/documents", icon: FileText },
-  { title: "Profile", url: "/profile", icon: User },
 ];
 
 const adminItems = [
