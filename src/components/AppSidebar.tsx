@@ -25,6 +25,7 @@ const adminItems = [
   { title: "Woredas", url: "/woredas", icon: MapPin },
   { title: "Users", url: "/users", icon: Users },
   { title: "Audit Logs", url: "/audit", icon: ClipboardList },
+  { title: "Profile", url: "/profile", icon: User },
 ];
 
 export function AppSidebar() {
@@ -166,19 +167,6 @@ export function AppSidebar() {
               )}
             </div>
           )}
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              "h-9 gap-2 text-white/85 hover:bg-white/15 hover:text-white rounded-lg font-medium",
-              pathname === "/profile" && "bg-white/15 text-white",
-              collapsed ? "justify-center px-0" : "justify-start",
-            )}
-            onClick={() => navigate({ to: "/profile" })}
-          >
-            <User className="h-4 w-4" />
-            {!collapsed && <span>Profile</span>}
-          </Button>
           <Button
             variant="ghost"
             size="sm"
