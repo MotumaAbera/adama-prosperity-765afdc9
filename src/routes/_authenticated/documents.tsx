@@ -197,7 +197,7 @@ function DocumentsPage() {
             <Search className="h-4 w-4" /> Search across folders
           </CardTitle>
         </CardHeader>
-        <CardContent className="grid md:grid-cols-2 gap-3">
+        <CardContent className="grid md:grid-cols-3 gap-3">
           <Input
             placeholder="Search title, number, file name, tags…"
             value={q}
@@ -208,6 +208,13 @@ function DocumentsPage() {
             <SelectContent>
               <SelectItem value="all">All subcities</SelectItem>
               {subs?.map((s: any) => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Select value={conf} onValueChange={setConf}>
+            <SelectTrigger><SelectValue placeholder="All confidentiality" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All confidentiality</SelectItem>
+              {Object.keys(CONF_COLOR).map((l) => <SelectItem key={l} value={l}>{l}</SelectItem>)}
             </SelectContent>
           </Select>
         </CardContent>
