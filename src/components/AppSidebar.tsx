@@ -17,7 +17,6 @@ const navItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Upload Document", url: "/upload", icon: Upload },
   { title: "Documents", url: "/documents", icon: FileText },
-  { title: "Profile", url: "/profile", icon: User },
 ];
 
 const adminItems = [
@@ -167,6 +166,19 @@ export function AppSidebar() {
               )}
             </div>
           )}
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn(
+              "h-9 gap-2 text-white/85 hover:bg-white/15 hover:text-white rounded-lg font-medium",
+              pathname === "/profile" && "bg-white/15 text-white",
+              collapsed ? "justify-center px-0" : "justify-start",
+            )}
+            onClick={() => navigate({ to: "/profile" })}
+          >
+            <User className="h-4 w-4" />
+            {!collapsed && <span>Profile</span>}
+          </Button>
           <Button
             variant="ghost"
             size="sm"
