@@ -101,6 +101,7 @@ function DocumentsPage() {
   const filteredAll = useMemo(() => {
     return (docs ?? []).filter((d: any) => {
       if (sub !== "all" && d.subcity_id !== sub) return false;
+      if (conf !== "all" && d.confidentiality_level !== conf) return false;
       if (q) {
         const s = q.toLowerCase();
         const hit = d.title?.toLowerCase().includes(s)
@@ -112,7 +113,7 @@ function DocumentsPage() {
       }
       return true;
     });
-  }, [docs, q, sub]);
+  }, [docs, q, sub, conf]);
 
   // Group by category
   const folders = useMemo(() => {
