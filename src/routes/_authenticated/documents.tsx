@@ -77,6 +77,7 @@ function DocumentsPage() {
   const qc = useQueryClient();
   const [q, setQ] = useState("");
   const [sub, setSub] = useState("all");
+  const [conf, setConf] = useState("all");
   const [showArchived, setShowArchived] = useState(false);
   const [openCat, setOpenCat] = useState<string | null>(null); // null = grid; "__uncat" = uncategorized
   const admin = isAdminRole(primaryRole);
@@ -100,6 +101,7 @@ function DocumentsPage() {
   const filteredAll = useMemo(() => {
     return (docs ?? []).filter((d: any) => {
       if (sub !== "all" && d.subcity_id !== sub) return false;
+      if (conf !== "all" && d.confidentiality_level !== conf) return false;
       if (q) {
         const s = q.toLowerCase();
         const hit = d.title?.toLowerCase().includes(s)
@@ -111,7 +113,7 @@ function DocumentsPage() {
       }
       return true;
     });
-  }, [docs, q, sub]);
+  }, [docs, q, sub, conf]);
 
   // Group by category
   const folders = useMemo(() => {
@@ -195,7 +197,7 @@ function DocumentsPage() {
             <Search className="h-4 w-4" /> Search across folders
           </CardTitle>
         </CardHeader>
-        <CardContent className="grid md:grid-cols-2 gap-3">
+        <CardContent className="grid md:grid-cols-3 gap-3">
           <Input
             placeholder="Search title, number, file name, tags…"
             value={q}
@@ -206,6 +208,13 @@ function DocumentsPage() {
             <SelectContent>
               <SelectItem value="all">All subcities</SelectItem>
               {subs?.map((s: any) => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Select value={conf} onValueChange={setConf}>
+            <SelectTrigger><SelectValue placeholder="All confidentiality" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All confidentiality</SelectItem>
+              {Object.keys(CONF_COLOR).map((l) => <SelectItem key={l} value={l}>{l}</SelectItem>)}
             </SelectContent>
           </Select>
         </CardContent>

@@ -295,6 +295,10 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      users_share_top_role: {
+        Args: { _a: string; _b: string }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role:
