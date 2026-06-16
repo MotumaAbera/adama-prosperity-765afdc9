@@ -49,6 +49,115 @@ export type Database = {
           },
         ]
       }
+      announcement_comments: {
+        Row: {
+          announcement_id: string
+          author_id: string
+          body: string
+          created_at: string
+          id: string
+          parent_comment_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          announcement_id: string
+          author_id: string
+          body: string
+          created_at?: string
+          id?: string
+          parent_comment_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          announcement_id?: string
+          author_id?: string
+          body?: string
+          created_at?: string
+          id?: string
+          parent_comment_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "announcement_comments_announcement_id_fkey"
+            columns: ["announcement_id"]
+            isOneToOne: false
+            referencedRelation: "announcements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "announcement_comments_parent_comment_id_fkey"
+            columns: ["parent_comment_id"]
+            isOneToOne: false
+            referencedRelation: "announcement_comments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      announcement_likes: {
+        Row: {
+          announcement_id: string
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          announcement_id: string
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          announcement_id?: string
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "announcement_likes_announcement_id_fkey"
+            columns: ["announcement_id"]
+            isOneToOne: false
+            referencedRelation: "announcements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      announcements: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          document_id: string | null
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          body: string
+          created_at?: string
+          document_id?: string | null
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          document_id?: string | null
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "announcements_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       categories: {
         Row: {
           code: string | null
