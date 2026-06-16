@@ -77,6 +77,7 @@ function DocumentsPage() {
   const qc = useQueryClient();
   const [q, setQ] = useState("");
   const [sub, setSub] = useState("all");
+  const [conf, setConf] = useState("all");
   const [showArchived, setShowArchived] = useState(false);
   const [openCat, setOpenCat] = useState<string | null>(null); // null = grid; "__uncat" = uncategorized
   const admin = isAdminRole(primaryRole);
