@@ -66,7 +66,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#3e7edd" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
-      { name: "apple-mobile-web-app-title", content: "Adama DMS" },
+      { name: "apple-mobile-web-app-title", content: "Adama City PP DMS" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
